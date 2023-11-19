@@ -5,15 +5,27 @@ body {
     margin: 0;
     padding: 0;
     background-color: #f4f4f4;
+    transition: opacity 0.5s ease-in-out;
 }
 
-.container {
-    max-width: 600px;
-    margin: 50px auto;
-    background-color: #fff;
+.card {
+    width: 80%; /* Adjust the width as needed */
+    margin: 0 auto;
     padding: 20px;
+    box-sizing: border-box;
     border-radius: 8px;
+    background-color: #fff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 h1 {
@@ -44,6 +56,7 @@ button {
     cursor: pointer;
     width: 100%;
     box-sizing: border-box;
+    transition: background-color 0.3s ease;
 }
 
 button:hover {
@@ -68,31 +81,19 @@ a:hover {
     text-decoration: underline;
 }
 
-/* Full-screen styling */
 html, body {
     height: 100%;
 }
 
-.container {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-    box-sizing: border-box;
-}
-
-/* body {
+body {
     display: flex;
     align-items: center;
     justify-content: center;
-} */
+}
 
-.card {
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 20px;
-    box-sizing: border-box;
-    border-radius: 8px;
-    background-color: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    animation: fadeIn 1s ease-in-out;
+/* Media query for larger screens */
+@media screen and (min-width: 768px) {
+    .card {
+        width: 60%; /* Adjust the width for larger screens */
+    }
 }
