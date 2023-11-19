@@ -38,11 +38,35 @@
             form.appendChild(input);
             document.body.appendChild(form);
             form.submit();
+
+            // Add mouse tracking for every response
+            handleMouseTracking();
+        }
+
+        function handleMouseTracking() {
+            var x = event.clientX;
+            var y = event.clientY;
+
+            // Use x and y to implement your mouse tracking effect
+            console.log('Mouse clicked at:', x, y);
+            // Example: You can add a div at the clicked position
+            createMouseTracker(x, y);
+        }
+
+        function createMouseTracker(x, y) {
+            var tracker = document.createElement('div');
+            tracker.className = 'mouse-tracker';
+            tracker.style.left = x + 'px';
+            tracker.style.top = y + 'px';
+            document.body.appendChild(tracker);
+
+            // Remove the tracker element after a short delay
+            setTimeout(function () {
+                tracker.remove();
+            }, 1000);
         }
     </script>
 </body>
-
 </html>
-
 
 
