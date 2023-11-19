@@ -9,6 +9,7 @@
     <title>Survey Form</title>
 </head>
 <body>
+    <div class="card">
     <h1>{{ question }}</h1><br>
 
     <br><form method="post" action="{{ url_for('submit') }}">
@@ -17,5 +18,7 @@
         <button type="submit">Submit</button>
     </form>
     <p><a href="{{ url_for('results') }}">View Results</a></p>
+    </div>
+
 </body>
 </html>
