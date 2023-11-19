@@ -25,7 +25,7 @@ def submit():
     responses.append(response)
 
     print(responses)
-    
+
     # Get mouse tracking data
     mouse_data = request.form['mouse_data']
 
@@ -51,8 +51,7 @@ def submit():
 def write_mouse_tracking_to_csv(response, mouse_data_list):
     with open('mouse_tracking.csv', mode='a', newline='') as file:
         writer = csv.writer(file)
-        for entry in mouse_data_list:
-            writer.writerow([response, entry.get('x', ''), entry.get('y', '')])
+        writer.writerow([response, mouse_data_list])
 
 @app.route('/results')
 def results():

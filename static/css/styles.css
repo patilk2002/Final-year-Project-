@@ -94,8 +94,8 @@ body {
 
 
 .button-container {
-    display: flex;
-    justify-content: space-between;
+    text-align: center; /* Center the buttons within the container */
+    /* justify-content: space-between; */
 }
 
 .response-button {
@@ -115,6 +115,13 @@ body {
 }
 
 
+.response-button-left {
+    float: left; /* Align the left button to the left */
+}
+
+.response-button-right {
+    float: right; /* Align the right button to the right */
+}
 
 .flask-image {
     text-align: center;
