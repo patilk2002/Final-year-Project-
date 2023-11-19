@@ -8,17 +8,41 @@
 
     <title>Survey Form</title>
 </head>
+
 <body>
     <div class="card">
-    <h1>{{ question }}</h1><br>
-
-    <br><form method="post" action="{{ url_for('submit') }}">
-        <label><input type="radio" name="response" value="Yes"> Yes</label>
-        <label><input type="radio" name="response" value="No"> No</label>
-        <button type="submit">Submit</button>
-    </form>
-    <p><a href="{{ url_for('results') }}">View Results</a></p>
+        <h1>{{ question }}</h1>
+        <img src="{{ url_for('static', filename='images/flask.png') }}" alt="Flask Image" class="flask-image">
+        <div class="button-container">
+            <button class="response-button" onclick="submitResponse('Yes')">Yes</button>
+            <button class="response-button" onclick="submitResponse('No')">No</button>
+        </div>
+        <p><a href="{{ url_for('results') }}">View Results</a></p>
     </div>
 
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelector('.card').classList.add('fade-in');
+        });
+
+        function submitResponse(response) {
+            var form = document.createElement('form');
+            form.method = 'post';
+            form.action = '{{ url_for("submit") }}';
+
+            var input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'response';
+            input.value = response;
+
+            form.appendChild(input);
+            document.body.appendChild(form);
+            form.submit();
+        }
+    </script>
 </body>
+
 </html>
+
+
+
