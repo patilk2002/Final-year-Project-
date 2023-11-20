@@ -3,6 +3,7 @@
 from flask import Flask, render_template, request, redirect, url_for
 import csv
 import json
+import matplotlib.pyplot as plt 
 
 app = Flask(__name__)
 
@@ -29,7 +30,7 @@ def submit():
     # Get mouse tracking data
     mouse_data = request.form['mouse_data']
 
-    print('Received Mouse Data:', mouse_data)
+    # print('Received Mouse Data:', mouse_data)
 
     try:
         mouse_data_list = json.loads(mouse_data)
@@ -48,10 +49,28 @@ def submit():
         return redirect(url_for('results'))
 
 
+
 def write_mouse_tracking_to_csv(response, mouse_data_list):
+    cor_x=[]
+    cor_y=[]
+
+    for i in mouse_data_list:
+        print("hello")
+        print(type(i))
+        cor_x.append(i["x"])
+        cor_y.append(i["y"])
+
+    print(cor_x)
+    print(cor_y)
+
+    plt.plot(cor_x, cor_y) 
+    plt.show()
+
+
     with open('mouse_tracking.csv', mode='a', newline='') as file:
         writer = csv.writer(file)
         writer.writerow([response, mouse_data_list])
+
 
 @app.route('/results')
 def results():
