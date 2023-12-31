@@ -12,7 +12,12 @@
 <body>
     <div class="card">
         <h1>{{ question }}</h1>
-        <img src="{{ url_for('static', filename='images/flask.png') }}" alt="Flask Image" class="flask-image">
+        {% if randomImage %}
+            <img src="{{ url_for('static', filename='images/' + randomImage) }}" alt="Random Image" class="flask-image">
+        {% else %}
+            <p>No images found.</p>
+        {% endif %}
+        
         <div class="button-container">
 
             <form method="post" action="{{ url_for('submit') }}" id="response-form">

@@ -4,6 +4,9 @@ from flask import Flask, render_template, request, redirect, url_for
 import csv
 import json
 import matplotlib.pyplot as plt 
+import os 
+from random import choice  # Import choice from the random module
+
 
 app = Flask(__name__)
 
@@ -16,9 +19,10 @@ responses = []
 
 @app.route('/')
 def index():
-    question = questions[0]['question']  # Display the first question
-    return render_template('index.html', question=question)
-
+    question = questions[0]['question']
+    images = [image for image in os.listdir(os.path.join(app.static_folder, 'images')) if image.endswith(('.png', '.jpg', '.jpeg'))]
+    random_image = choice(images) if images else None
+    return render_template('index.html', question=question, randomImage=random_image)
 
 @app.route('/submit', methods=['POST'])
 def submit():
