@@ -9,24 +9,69 @@
     <title>Survey Form</title>
 
     <style>
-        
+
     .flask-image{
     text-align: center;
     /* width: 200px; Set a fixed width */
-    height: 400px; /* Set a fixed height */
+    height: 250px; /* Set a fixed height */
     object-fit: cover; /* Maintain aspect ratio while covering the specified dimensions */
     margin-top: 10px;
     margin-bottom: 20px;
     max-width: none; /* Remove the max-width property */
     }
+    
+    body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .header {
+        background-color: #333;
+        color: #fff;
+        text-align: center;
+        padding: 5px;
+        position: fixed;
+        width: 100%;
+        top: 0;
+    }
+
+    .card {
+        margin-top: 80px; /* Adjusted margin-top to accommodate the fixed header */
+        width: 50%;
+        margin: 0 auto;
+        padding: 20px;
+        box-sizing: border-box;
+        border-radius: 8px;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        animation: fadeIn 1s ease-in-out;
+    }
+
+
+        .footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
 
     </style>
 
 </head>
 
 <body>
+    <div class="header">
+        <h2>SURVEY FORM </h2>
+    </div>
+
     <div class="card">
-        <h1>{{ question }}</h1>
+        <h2>{{ question }}</h2>
         {% if randomImage %}
             <img src="{{ url_for('static', filename='images/' + randomImage) }}" alt="Random Image" class="flask-image">
         {% else %}
@@ -49,6 +94,12 @@
         <p><a href="{{ url_for('results') }}">View Results</a></p>
     </div>
     
+
+    <div class="footer">
+        <p>&copy; 2023 Kiran Patil. All rights reserved.</p>
+    </div>
+
+
     <script>
         var mouseData = [];
         document.addEventListener("DOMContentLoaded", function () {

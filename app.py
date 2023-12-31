@@ -6,23 +6,27 @@ import json
 import matplotlib.pyplot as plt 
 import os 
 from random import choice  # Import choice from the random module
-
+from datetime import datetime
 
 app = Flask(__name__)
 
 questions = [
     {'id': 1, 'question': 'Do you like Flask?'},
-    # Add more questions as needed
 ]
 
 responses = []
 labels=[]
+image_name=""
+
 
 @app.route('/')
 def index():
-    question = questions[0]['question']
+    # question = questions[0]['question']
     images = [image for image in os.listdir(os.path.join(app.static_folder, 'images')) if image.endswith(('.png', '.jpg', '.jpeg'))]
     random_image = choice(images) if images else None
+    image_name=random_image[:-6]
+    question= "Do you think this image representing "+random_image[:-10]+" ?"
+
     return render_template('index.html', question=question, randomImage=random_image)
 
 @app.route('/submit', methods=['POST'])
@@ -72,16 +76,37 @@ def write_mouse_tracking_to_csv(label, response, mouse_data_list):
     cor_x = []
     cor_y = []
 
+    timestamp = datetime.now().strftime('%Y%m%d%H%M%S%f')
+
+
+    folder_path = os.path.join("static", "graphs", label)
+    os.makedirs(folder_path, exist_ok=True)  # Create folder if it doesn't exist
+
+    cor_x = [point["x"] for point in mouse_data_list]
+    cor_y = [point["y"] for point in mouse_data_list]
+
+    plt.plot(cor_x, cor_y)
+    plt.title("Mouse Tracking")
+    plt.xlabel("X-coordinate")
+    plt.ylabel("Y-coordinate")
+
+    graph_path = os.path.join(folder_path, f"{label}_{timestamp}_graph.png")
+    plt.savefig(graph_path)
+    plt.close()
+
+
+
+
+
     for i in mouse_data_list:
         cor_x.append(i["x"])
         cor_y.append(i["y"])
 
-
     print(cor_x)
     print(cor_y)
 
-    plt.plot(cor_x, cor_y) 
-    plt.show()
+    # plt.plot(cor_x, cor_y) 
+    # plt.show()
 
 
     # with open('mouse_tracking.csv', mode='a', newline='') as file:
