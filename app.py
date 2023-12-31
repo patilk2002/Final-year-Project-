@@ -16,6 +16,7 @@ questions = [
 ]
 
 responses = []
+labels=[]
 
 @app.route('/')
 def index():
@@ -28,6 +29,12 @@ def index():
 def submit():
     response = request.form['response']
     responses.append(response)
+
+    label = request.form['label']
+    labels.append(label)
+
+    
+
 
     # Get mouse tracking data
     mouse_data = request.form['mouse_data']
@@ -92,7 +99,8 @@ def write_mouse_tracking_to_csv(label, response, mouse_data_list):
 @app.route('/results')
 def results():
     # Display survey results
-    return render_template('results.html', responses=responses)
+    zipped_data = zip(responses, labels)
+    return render_template('results.html', responses=responses,zipped_data=zipped_data)
 
 if __name__ == '__main__':
     app.run(debug=True)

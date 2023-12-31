@@ -12,11 +12,24 @@
     <div class="card">
     <h1>Survey Results</h1>
     <p>{{ question }}</p>
-    <ul>
+    <!-- <ul>
         {% for response in responses %}
             <li>{{ response }}</li>
         {% endfor %}
     </ul>
+
+    <ul>
+        {% for label in labels %}
+            <li>{{ label }}</li>
+        {% endfor %}
+    </ul> -->
+
+    <ul>
+        {% for response, label in zipped_data %}
+            <li>{{ response }} - {{ label }}</li>
+        {% endfor %}
+    </ul>
+    
     <p><a href="{{ url_for('index') }}">Back to Survey</a></p>
 </div>
 </body>
