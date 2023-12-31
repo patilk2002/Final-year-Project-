@@ -25,20 +25,19 @@ def submit():
     response = request.form['response']
     responses.append(response)
 
-    print(responses)
-
     # Get mouse tracking data
     mouse_data = request.form['mouse_data']
 
-    # print('Received Mouse Data:', mouse_data)
+    # Get the label from the form
+    label = request.form['label']
 
     try:
         mouse_data_list = json.loads(mouse_data)
     except json.JSONDecodeError:
-        mouse_data_list = []  # Handle the case where JSON decoding fails
+        mouse_data_list = []
 
-    # Add mouse tracking data to CSV file
-    write_mouse_tracking_to_csv(response, mouse_data_list)
+    # Add mouse tracking data to CSV file with the label
+    write_mouse_tracking_to_csv(label, response, mouse_data_list)
 
     # Move to the next question or show results when all questions are answered
     next_question_index = len(responses)
@@ -49,16 +48,23 @@ def submit():
         return redirect(url_for('results'))
 
 
+# def write_mouse_tracking_to_csv(response, mouse_data_list):
+#     cor_x=[]
+#     cor_y=[]
 
-def write_mouse_tracking_to_csv(response, mouse_data_list):
-    cor_x=[]
-    cor_y=[]
+#     for i in mouse_data_list:
+#         print("hello")
+#         print(type(i))
+#         cor_x.append(i["x"])
+#         cor_y.append(i["y"])
+def write_mouse_tracking_to_csv(label, response, mouse_data_list):
+    cor_x = []
+    cor_y = []
 
     for i in mouse_data_list:
-        print("hello")
-        print(type(i))
         cor_x.append(i["x"])
         cor_y.append(i["y"])
+
 
     print(cor_x)
     print(cor_y)
@@ -67,9 +73,16 @@ def write_mouse_tracking_to_csv(response, mouse_data_list):
     plt.show()
 
 
+    # with open('mouse_tracking.csv', mode='a', newline='') as file:
+    #     writer = csv.writer(file)
+    #     writer.writerow([response, mouse_data_list])
+
+
     with open('mouse_tracking.csv', mode='a', newline='') as file:
         writer = csv.writer(file)
-        writer.writerow([response, mouse_data_list])
+        # Add the label as the first element in the row
+        writer.writerow([label, response] + cor_x + cor_y)
+
 
 
 @app.route('/results')

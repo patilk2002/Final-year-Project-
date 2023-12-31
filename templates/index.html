@@ -18,6 +18,8 @@
             <form method="post" action="{{ url_for('submit') }}" id="response-form">
                 <input type="hidden" name="response" id="response-input">
                 <input type="hidden" name="mouse_data" id="mouse-data-input">
+                <!-- Add a new input field for the label -->
+                <input type="text" name="label" id="label-input" placeholder="Enter Label">
             </form>
             
                 <button class="response-button response-button-left" onclick="submitResponse('Yes')">Yes</button>
