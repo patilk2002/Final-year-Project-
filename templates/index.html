@@ -7,6 +7,21 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 
     <title>Survey Form</title>
+
+    <style>
+        
+    .flask-image{
+    text-align: center;
+    /* width: 200px; Set a fixed width */
+    height: 400px; /* Set a fixed height */
+    object-fit: cover; /* Maintain aspect ratio while covering the specified dimensions */
+    margin-top: 10px;
+    margin-bottom: 20px;
+    max-width: none; /* Remove the max-width property */
+    }
+
+    </style>
+
 </head>
 
 <body>
@@ -24,7 +39,7 @@
                 <input type="hidden" name="response" id="response-input">
                 <input type="hidden" name="mouse_data" id="mouse-data-input">
                 <!-- Add a new input field for the label -->
-                <input type="text" name="label" id="label-input" placeholder="Enter Label">
+                <input type="hidden" name="label" id="label-input" value="{{ randomImage.split('.')[0][:-6] if randomImage else '' }}">
             </form>
             
                 <button class="response-button response-button-left" onclick="submitResponse('Yes')">Yes</button>
