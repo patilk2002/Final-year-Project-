@@ -101,6 +101,26 @@
 
 
     <script>
+
+
+        // Function to simulate mouse movement to the center of the screen
+        function moveCursorToCenter() {
+            const event = new MouseEvent('mousemove', {
+                clientX: window.innerWidth / 2,
+                clientY: window.innerHeight / 2,
+                bubbles: true,
+            });
+
+            // Dispatch the event
+            document.dispatchEvent(event);
+        }
+
+        // Call the function on page load
+        window.onload = moveCursorToCenter;
+
+
+
+
         var mouseData = [];
         document.addEventListener("DOMContentLoaded", function () {
             document.querySelector('.card').classList.add('fade-in');
