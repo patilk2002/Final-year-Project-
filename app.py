@@ -37,8 +37,6 @@ def submit():
     label = request.form['label']
     labels.append(label)
 
-    
-
 
     # Get mouse tracking data
     mouse_data = request.form['mouse_data']
@@ -105,8 +103,10 @@ def write_mouse_tracking_to_csv(label, response, mouse_data_list):
     print(cor_x)
     print(cor_y)
 
-    # plt.plot(cor_x, cor_y) 
-    # plt.show()
+    plt.plot(cor_x, cor_y) 
+    plt.xlim([0, 1600])
+    plt.ylim([0, 700])
+    plt.show()
 
 
     # with open('mouse_tracking.csv', mode='a', newline='') as file:
