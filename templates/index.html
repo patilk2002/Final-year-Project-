@@ -127,8 +127,7 @@
             <br />
             <p>
 
-
-            <button onclick="getValues(); showimg();">Next</button> <!-- Button to show the question form -->
+            <button onclick="getValues()">Next</button> <!-- Button to show the question form -->
                 
                 <!-- <input type="submit" value="Send"
                     name="Submit" onsubmit="getValues()"/> -->
@@ -199,7 +198,7 @@
            
         }
 
-        function showimg(){
+        function showImg(){
             console.log("hi, hello!!!!!");
             document.getElementById('infoForm').style.display = 'none';
             document.getElementById('imageSection').style.display = 'block';
@@ -210,6 +209,7 @@
 
         function getValues(event){
             event.preventDefault();
+            // console.log(event);
 
             let data = {
                 "occupation": this.Occupation.value, 
@@ -217,15 +217,7 @@
                 "gender": this.Gender.value,
                 "computerOpSkill": this.ComputerOpSkill.value,
             }
-
-            let	out = `
-                <p>Name: <span>${data.occupation}</span></p>
-                <p>Bio: <span>${data.age}</span></p>
-                <p>Gender: <span>${data.gender}</span></p>
-                <p>Fav food: <span>${data.computerOpSkill}</span></p>
-            `;
-
-            document.querySelector(".out code").innerHTML = out;
+            showImg();
         }
 
         function showimg(){
