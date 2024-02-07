@@ -113,8 +113,8 @@
                 <input type="hidden" name="label" id="label-input" value="{{ randomImage.split('.')[0][:-6] if randomImage else '' }}">
             </form>
             
-                <button class="response-button response-button-left" onclick="submitResponse('Yes')">Yes</button>
-                <button class="response-button response-button-right" onclick="submitResponse('No')">No</button>  
+                <button class="response-button response-button-left"  onclick="submitResponse('Yes')">Yes</button>
+                <button class="response-button response-button-right"  onclick="submitResponse('No')">No</button>  
         </div>
         <br><br>
         <p><a href="{{ url_for('results') }}">View Results</a></p>
@@ -127,11 +127,20 @@
 
 
     <script>
+           let isFlagTrue = true;
 
         function showQuestion() {   
             document.getElementById('imageSection').style.display = 'none';
             document.getElementById('questionSection').style.display = 'block';
-            startMouseTracking();
+           
+            document.addEventListener("mousemove", function (event) {
+            var x = event.clientX;
+            var y = event.clientY;
+            mouseData.push({ x: x, y: y });
+            
+            });
+        
+           
         }
 
         // Function to simulate mouse movement to the center of the screen
@@ -160,31 +169,35 @@
             document.querySelector('.card').classList.add('fade-in');
             console.log("test");
             // Initialize mouse tracking array
+
+           
     
             // Track mouse movements
             
-
-            document.addEventListener("mousemove", function (event) {
+           
+             /*document.addEventListener("mousemove", function (event) {
             var x = event.clientX;
             var y = event.clientY;
             mouseData.push({ x: x, y: y });
-            console.log('Mouse Data:', mouseData);
-            console.log('Mouse Data:', JSON.stringify(mouseData)); 
-            });
+           // console.log('Mouse Data:', mouseData);
+            //console.log('Mouse Data:', JSON.stringify(mouseData)); 
+            });*/
+        
 
             // Submit mouse data when the form is submitted
             document.getElementById('response-form').addEventListener('submit', function () {
                 // document.getElementById('mouse-data-input').value = JSON.stringify(mouseData);
                 document.getElementById('mouse-data-input').value = JSON.stringify(mouseData);
 
-                console.log('Mouse Data:', JSON.stringify(mouseData)); // Log mouse data for debugging
-                console.log("test");
+               // console.log('Mouse Data:', JSON.stringify(mouseData)); // Log mouse data for debugging
+                //console.log("test");
             });
         });
     
 
         
         function submitResponse(response) {
+            
             document.getElementById('response-input').value = response;
             document.getElementById('mouse-data-input').value = JSON.stringify(mouseData);
             document.getElementById('response-form').submit();
