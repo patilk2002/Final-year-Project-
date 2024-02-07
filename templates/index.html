@@ -140,7 +140,6 @@
     </div>
 
     <div id="imageSection" class="card1" style="display: none;">
-
         <!-- <h2>{{ question }}</h2> -->
         {% if randomImage %}
             <img src="{{ url_for('static', filename='images/' + randomImage) }}" alt="Random Image" class="flask-image">
@@ -188,15 +187,7 @@
         function showQuestion() {   
             document.getElementById('imageSection').style.display = 'none';
             document.getElementById('questionSection').style.display = 'block';
-           
-            document.addEventListener("mousemove", function (event) {
-            var x = event.clientX;
-            var y = event.clientY;
-            mouseData.push({ x: x, y: y });
-            
-            });
-        
-           
+            startMouseTracking();
         }
 
         function showimg(){
