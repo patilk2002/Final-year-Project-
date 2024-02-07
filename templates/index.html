@@ -81,10 +81,66 @@
         <h2>SURVEY FORM </h2>
     </div>
 
+    <div id="infoForm" class="card" style="display: block;">
+        <h1 style="text-align: center;">
+            Basic Info
+        </h1>
+        <form name="info-form">
+            <!-- onsubmit="return getValues()"> -->
+            <p>
+                Age:
+                <input required type="number" size="65"
+                    name="Age"
+                    placeholder="21"/>
+            </p>
+            <br />
+            <p>
+                Occupation:
+                <select value="" name="Occupation" required>
+                    <option value="">Select Occupation</option>
+                    <option value="Student">Student</option>
+                    <option value="Job with high Computer use">Job with high Computer use</option>
+                    <option value="Job with frequent Computer use">Job with frequent Computer use</option>
+                    <option value="Job with minimal Computer use">Job with minimal Computer use</option>
+                </select>
+            </p>
+            <br />
+            <p>
+                Gender: 
+                <select value="" name="Gender" required>
+                    <option value="">Select Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select>
+            </p>
+            <br />
+            <p>
+                Computer Operating Skill: 
+                <select value="" name="ComputerOpSkill" required>
+                    <option value="">Select</option>
+                    <option value="Beginner">Beginner</option>
+                    <option value="Intermediate">Intermediate</option>
+                    <option value="Expert">Expert</option>
+                </select>
+            </p>
+            <br />
+            <br />
+            <p>
+
+            <button onclick="getValues(); showimg();">Next</button> <!-- Button to show the question form -->
+                
+                <!-- <input type="submit" value="Send"
+                    name="Submit" onsubmit="getValues()"/> -->
 
 
+                <input type="reset" value="Reset"
+                    name="Reset" />
+            </p>
+        </form> 
+    </div>
 
-    <div id="imageSection" class="card1" style="display: flex; flex-direction: column; align-items: center;">
+    <div id="imageSection" class="card1" style="display: none;">
+
         <!-- <h2>{{ question }}</h2> -->
         {% if randomImage %}
             <img src="{{ url_for('static', filename='images/' + randomImage) }}" alt="Random Image" class="flask-image">
@@ -141,6 +197,35 @@
             });
         
            
+        }
+
+        function showimg(){
+            console.log("hi, hello!!!!!");
+            document.getElementById('infoForm').style.display = 'none';
+            document.getElementById('imageSection').style.display = 'block';
+        }
+
+        let form = document.forms["info-form"];
+        form.addEventListener("submit", getValues);
+
+        function getValues(event){
+            event.preventDefault();
+
+            let data = {
+                "occupation": this.Occupation.value, 
+                "age": this.Age.value, 
+                "gender": this.Gender.value,
+                "computerOpSkill": this.ComputerOpSkill.value,
+            }
+
+            let	out = `
+                <p>Name: <span>${data.occupation}</span></p>
+                <p>Bio: <span>${data.age}</span></p>
+                <p>Gender: <span>${data.gender}</span></p>
+                <p>Fav food: <span>${data.computerOpSkill}</span></p>
+            `;
+
+            document.querySelector(".out code").innerHTML = out;
         }
 
         // Function to simulate mouse movement to the center of the screen
