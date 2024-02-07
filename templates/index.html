@@ -127,7 +127,7 @@
             <br />
             <p>
 
-            <button onclick="getValues(); showimg();">Next</button> <!-- Button to show the question form -->
+            <button onclick="getValues()">Next</button> <!-- Button to show the question form -->
                 
                 <!-- <input type="submit" value="Send"
                     name="Submit" onsubmit="getValues()"/> -->
@@ -187,7 +187,37 @@
         function showQuestion() {   
             document.getElementById('imageSection').style.display = 'none';
             document.getElementById('questionSection').style.display = 'block';
-            startMouseTracking();
+           
+            document.addEventListener("mousemove", function (event) {
+            var x = event.clientX;
+            var y = event.clientY;
+            mouseData.push({ x: x, y: y });
+            
+            });
+        
+           
+        }
+
+        function showImg(){
+            console.log("hi, hello!!!!!");
+            document.getElementById('infoForm').style.display = 'none';
+            document.getElementById('imageSection').style.display = 'block';
+        }
+
+        let form = document.forms["info-form"];
+        form.addEventListener("submit", getValues);
+
+        function getValues(event){
+            event.preventDefault();
+            // console.log(event);
+
+            let data = {
+                "occupation": this.Occupation.value, 
+                "age": this.Age.value, 
+                "gender": this.Gender.value,
+                "computerOpSkill": this.ComputerOpSkill.value,
+            }
+            showImg();
         }
 
         function showimg(){
