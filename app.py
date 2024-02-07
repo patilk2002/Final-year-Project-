@@ -87,9 +87,11 @@ def write_mouse_tracking_to_csv(label, response, mouse_data_list):
     plt.title("Mouse Tracking")
     plt.xlabel("X-coordinate")
     plt.ylabel("Y-coordinate")
-
+    plt.xlim([0, 1600])
+    plt.ylim([0, 700])
     graph_path = os.path.join(folder_path, f"{label}_{timestamp}_graph.png")
     plt.savefig(graph_path)
+    plt.show()
     plt.close()
 
 
@@ -106,8 +108,8 @@ def write_mouse_tracking_to_csv(label, response, mouse_data_list):
     plt.plot(cor_x, cor_y) 
     plt.xlim([0, 1600])
     plt.ylim([0, 700])
-    plt.show()
-
+    # plt.show()
+    plt.close()
 
     # with open('mouse_tracking.csv', mode='a', newline='') as file:
     #     writer = csv.writer(file)
