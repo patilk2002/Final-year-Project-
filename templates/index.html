@@ -72,6 +72,35 @@
             width: 100%;
         }
 
+            /* Alert styling */
+            .alert {
+                        position:fixed;
+                        bottom: 90px;
+                        right: 30px;
+                        background-color: #4CAF50;
+                        color: #f8f0f0;
+                        padding: 15px;
+                        border-radius: 5px;
+                        display: none; /* Hide initially */
+                        z-index: 1;
+                    }
+
+                    /* Different styles based on the type of alert */
+                    .alert-success {
+                        background-color: #4CAF50;
+                    }
+
+                    .alert-endsur {
+                        background-color: #4CAF50;
+                    }
+                    
+                    .alert-warning {
+                        background-color: #FFC107;
+                    }
+
+                    .alert-danger {
+                        background-color: #FF5722;
+                    }
     </style>
 
 </head>
@@ -81,7 +110,10 @@
         <h2>SURVEY FORM </h2>
     </div>
 
-    <div id="infoForm" class="card" style="display: block;">
+     <!-- Alert container -->
+     <div id="alertContainer" class="alert"></div>
+
+  <div id="infoForm" class="card" style="display: block;">
         <h1 style="text-align: center;">
             Basic Info
         </h1>
@@ -137,7 +169,7 @@
                     name="Reset" />
             </p>
         </form> 
-    </div>
+    </div>  
 
     <div id="imageSection" class="card1" style="display: none;">
         <!-- <h2>{{ question }}</h2> -->
@@ -199,8 +231,15 @@
         }
 
         function showImg(){
-            document.getElementById('infoForm').style.display = 'none';
-            document.getElementById('imageSection').style.display = 'block';
+
+        document.getElementById('infoForm').style.display = 'none';
+        document.getElementById('imageSection').style.display = 'block';
+
+        var localStorageValue = localStorage.getItem('alertType');
+        // Display the alert based on the local storage value
+        if (localStorageValue) {
+            displayAlert(localStorageValue);
+        }
         }
 
         let form = document.forms["info-form"];
@@ -209,13 +248,23 @@
         function getValues(event){
             event.preventDefault();
 
+            
+
+               // Check if visit count value exists in localStorage
+    if (!localStorage.getItem('visitCount')) {
+        // Set the visit count in localStorage with an initial value of 0
+        localStorage.setItem('visitCount', 0);
+    }
+
+
             let data = {
                 "occupation": this.Occupation.value, 
                 "age": this.Age.value, 
                 "gender": this.Gender.value,
                 "computerOpSkill": this.ComputerOpSkill.value,
             }
-            
+            //showalert
+            localStorage.setItem('alertType', 'success');
             showImg();
         }
 
@@ -251,6 +300,22 @@
         document.addEventListener("DOMContentLoaded", function () {
             document.querySelector('.card').classList.add('fade-in');
             console.log("test");
+
+//code to display form based on setvalue local storage value 
+if (!localStorage.getItem('visitCount')) {
+        // Render the form code
+        document.getElementById('infoForm').style.display = 'block';
+        var localStorageValue = localStorage.getItem('alertType');
+        // Display the alert based on the local storage value
+        if (localStorageValue) {
+            displayAlert(localStorageValue);
+        }
+    }
+    else {
+       
+        showImg();
+    }
+
             // Initialize mouse tracking array
 
            
@@ -259,7 +324,7 @@
             
            
              /*document.addEventListener("mousemove", function (event) {
-            var x = event.clientX;
+            var x = event.clientX; 
             var y = event.clientY;
             mouseData.push({ x: x, y: y });
            // console.log('Mouse Data:', mouseData);
@@ -285,6 +350,44 @@
             document.getElementById('mouse-data-input').value = JSON.stringify(mouseData);
             document.getElementById('response-form').submit();
         }
+
+        // below functions displays alert
+        function displayAlert(type) {
+    var alertContainer = document.getElementById('alertContainer');
+    var alertText = '';
+
+    // Set alert text based on the type
+    switch (type) {
+        case 'success':
+            alertText = 'Your survey has began successfully ';
+            break;
+         case 'endsur':
+            alertText = 'Thank you for filling out this survey 😊😊';
+            break;
+        case 'warning':
+            alertText = 'Warning: Proceed with caution.';
+            break;
+        case 'danger':
+            alertText = 'Error: Something went wrong.';
+            break;
+        default:
+            alertText = 'Default Alert.';
+            break;
+    }
+
+    // Set the alert text and style
+    alertContainer.innerHTML = alertText;
+    alertContainer.className = 'alert alert-' + type;
+
+    // Display the alert
+    alertContainer.style.display = 'block';
+
+    // Clear local storage value after 2 seconds
+    setTimeout(function () {
+        alertContainer.style.display = 'none'; // Hide the alert
+        localStorage.removeItem('alertType'); // Remove 'alertType' from local storage
+    }, 2000); // 2000 milliseconds (2 seconds)
+}
     </script>
 </body>
 </html>
