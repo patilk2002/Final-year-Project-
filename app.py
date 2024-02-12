@@ -17,6 +17,7 @@ questions = [
 responses = []
 labels=[]
 image_name=""
+responseTimes = []
 
 
 @app.route('/')
@@ -37,6 +38,8 @@ def submit():
     label = request.form['label']
     labels.append(label)
 
+    responseTime = request.form['responseTime']
+    responseTimes.append(responseTime)
 
     # Get mouse tracking data
     mouse_data = request.form['mouse_data']
@@ -81,7 +84,7 @@ def write_mouse_tracking_to_csv(label, response, mouse_data_list):
     os.makedirs(folder_path, exist_ok=True)  # Create folder if it doesn't exist
 
     cor_x = [point["x"] for point in mouse_data_list]
-    cor_y = [point["y"] for point in mouse_data_list]
+    cor_y = [700-point["y"] for point in mouse_data_list]
 
     plt.plot(cor_x, cor_y)
     plt.title("Mouse Tracking")
@@ -94,6 +97,7 @@ def write_mouse_tracking_to_csv(label, response, mouse_data_list):
     plt.show()
     plt.close()
 
+    print(responseTimes);
 
 
 
@@ -126,7 +130,7 @@ def write_mouse_tracking_to_csv(label, response, mouse_data_list):
 @app.route('/results')
 def results():
     # Display survey results
-    zipped_data = zip(responses, labels)
+    zipped_data = zip(responses, labels, responseTimes)
     return render_template('results.html', responses=responses,zipped_data=zipped_data)
 
 if __name__ == '__main__':
