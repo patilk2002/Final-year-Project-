@@ -146,3 +146,22 @@ body {
 
 
 
+#emotion-images {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.emotion-image {
+    /* width: 70px; Increased image size */
+    height: 70px; /* Increased image size */
+    object-fit: cover;
+    border-radius: 10px; /* Adjusted radius */
+    margin-right: 10px; /* Added spacing between images */
+    transition: transform 0.3s ease-in-out; /* Added transition for smooth effect */
+}
+
+.emotion-image:hover {
+    transform: scale(1.1); /* Scale up on hover */
+}
+

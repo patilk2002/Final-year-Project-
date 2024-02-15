@@ -18,6 +18,7 @@ responses = []
 labels=[]
 image_name=""
 responseTimes = []
+currentEmotions = []
 
 
 @app.route('/')
@@ -41,6 +42,9 @@ def submit():
     responseTime = request.form['responseTime']
     responseTimes.append(responseTime)
 
+    currentEmotion = request.form['currentEmotion']
+    currentEmotions.append(currentEmotion)
+
     # Get mouse tracking data
     mouse_data = request.form['mouse_data']
 
@@ -53,7 +57,7 @@ def submit():
         mouse_data_list = []
 
     # Add mouse tracking data to CSV file with the label
-    write_mouse_tracking_to_csv(label, response, mouse_data_list)
+    write_mouse_tracking_to_csv(label, response, responseTime, currentEmotion, mouse_data_list)
 
     # Move to the next question or show results when all questions are answered
     next_question_index = len(responses)
@@ -73,7 +77,7 @@ def submit():
 #         print(type(i))
 #         cor_x.append(i["x"])
 #         cor_y.append(i["y"])
-def write_mouse_tracking_to_csv(label, response, mouse_data_list):
+def write_mouse_tracking_to_csv(label, response, responseTime, currentEmotion, mouse_data_list):
     cor_x = []
     cor_y = []
 
@@ -123,14 +127,14 @@ def write_mouse_tracking_to_csv(label, response, mouse_data_list):
     with open('mouse_tracking.csv', mode='a', newline='') as file:
         writer = csv.writer(file)
         # Add the label as the first element in the row
-        writer.writerow([label, response] + cor_x + cor_y)
+        writer.writerow([label, response, responseTime, currentEmotion] + cor_x + cor_y)
 
 
 
 @app.route('/results')
 def results():
     # Display survey results
-    zipped_data = zip(responses, labels, responseTimes)
+    zipped_data = zip(responses, labels, responseTimes, currentEmotions)
     return render_template('results.html', responses=responses,zipped_data=zipped_data)
 
 if __name__ == '__main__':

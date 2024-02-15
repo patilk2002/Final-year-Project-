@@ -165,6 +165,7 @@
                 <input type="hidden" name="response" id="response-input">
                 <input type="hidden" name="mouse_data" id="mouse-data-input">
                 <input type="hidden" name="responseTime" id="response-time-input">
+                <input type="hidden" name="currentEmotion" id="current-emotion-input">
                 <!-- Add a new input field for the label -->
                 <input type="hidden" name="label" id="label-input" value="{{ randomImage.split('.')[0][:-6] if randomImage else '' }}">
             </form>
@@ -173,6 +174,37 @@
                 <button class="response-button response-button-right"  onclick="submitResponse('No')">No</button>  
         </div>
         <br><br>
+    </div>
+
+    <div id="currentEmotionCard" class="card" style="display: none;">
+        <h2>How are you feeling?</h2>
+        <div id="emotion-images">
+            <button onclick="getCurrentEmotion('amusement');">
+                <img src="{{ url_for('static', filename='images/emoji/amusement.png') }}" alt="Emotion 1" class="emotion-image">
+            </button>
+            <button onclick="getCurrentEmotion('awe')">
+                <img src="{{ url_for('static', filename='images/emoji/awe.png') }}" alt="Emotion 2" class="emotion-image">
+            </button>
+            <button onclick="getCurrentEmotion('contentment')">
+                <img src="{{ url_for('static', filename='images/emoji/contentment.png') }}" alt="Emotion 3" class="emotion-image">
+            </button>
+            <button onclick="getCurrentEmotion('excitement')">
+                <img src="{{ url_for('static', filename='images/emoji/excitement.png') }}" alt="Emotion 4" class="emotion-image">
+            </button>
+            <button onclick="getCurrentEmotion('anger')">
+                <img src="{{ url_for('static', filename='images/emoji/anger.png') }}" alt="Emotion 5" class="emotion-image">
+            </button>
+            <button onclick="getCurrentEmotion('disgust')">
+                <img src="{{ url_for('static', filename='images/emoji/disgust.png') }}" alt="Emotion 6" class="emotion-image">
+            </button>
+            <button onclick="getCurrentEmotion('fear')">
+                <img src="{{ url_for('static', filename='images/emoji/fear.png') }}" alt="Emotion 7" class="emotion-image">
+            </button>
+            <button onclick="getCurrentEmotion('sadness')">
+                <img src="{{ url_for('static', filename='images/emoji/sadness.png') }}" alt="Emotion 8" class="emotion-image">
+            </button>
+        </div>
+        <br>
         <p><a href="{{ url_for('results') }}">View Results</a></p>
     </div>
     
@@ -300,6 +332,13 @@
             document.getElementById('response-time-input').value = responseTime;
             document.getElementById('response-input').value = response;
             document.getElementById('mouse-data-input').value = JSON.stringify(mouseData);
+            document.getElementById('questionSection').style.display = 'none';
+            document.getElementById('currentEmotionCard').style.display = 'block';
+        }
+
+        function getCurrentEmotion(emotion) {
+            console.log(emotion);
+            document.getElementById('current-emotion-input').value = emotion;
             document.getElementById('response-form').submit();
         }
     </script>
