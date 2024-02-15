@@ -20,6 +20,30 @@ body {
     
 }
 
+.card-negative {
+    width: 80%; /* Adjust the width as needed */
+    margin: 0 auto;
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 8px;
+    background-color: rgb(77, 77, 77); /* Dark background color */
+    color: #fff; /* Light text color */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Darker shadow */
+    animation: fadeIn 1s ease-in-out;
+}
+
+/* Optionally, you can add animation keyframes to make the appearance more dramatic */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -61,6 +85,22 @@ button {
 
 button:hover {
     background-color: #45a049;
+}
+
+.button-negative {
+    background-color: black;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    box-sizing: border-box;
+    transition: background-color 0.3s ease;
+}
+
+.button-negative:hover {
+    background-color: #333;
 }
 
 ul {
@@ -114,6 +154,21 @@ body {
     background-color: #45a049;
 }
 
+.response-button-negative {
+    background-color: black;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 30%; /* Adjust the width as needed */
+    box-sizing: border-box;
+    transition: background-color 0.3s ease;
+}
+
+.response-button-negative:hover {
+    background-color: #333;
+}
 
 .response-button-left {
     float: left; /* Align the left button to the left */

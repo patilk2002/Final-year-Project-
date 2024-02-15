@@ -139,11 +139,11 @@
         </form> 
     </div>
 
-    <div id="imageSection" class="card1" style="display: none;">
+    <div id="imageSection" class="card{{ imageEmotionType }}" style="display: none;">
         <!-- <h2>{{ question }}</h2> -->
         {% if randomImage %}
             <img src="{{ url_for('static', filename='images/' + randomImage) }}" alt="Random Image" class="flask-image">
-            <button onclick="showQuestion()" style="width: 150px;">Next</button> <!-- Button to show the question form -->
+            <button class="button{{imageEmotionType}}" onclick="showQuestion()" style="width: 150px;">Next</button> <!-- Button to show the question form -->
         {% else %}
             <p>No images found.</p>
         {% endif %}
@@ -151,7 +151,7 @@
 
 
 
-    <div id="questionSection" class="card" style="display: none;">
+    <div id="questionSection" class="card{{ imageEmotionType }}" style="display: none;">
         <h2>{{ question }}</h2>
         <!-- {% if randomImage %}
             <img src="{{ url_for('static', filename='images/' + randomImage) }}" alt="Random Image" class="flask-image">
@@ -170,8 +170,8 @@
                 <input type="hidden" name="label" id="label-input" value="{{ randomImage.split('.')[0][:-6] if randomImage else '' }}">
             </form>
             
-                <button class="response-button response-button-left"  onclick="submitResponse('Yes')">Yes</button>
-                <button class="response-button response-button-right"  onclick="submitResponse('No')">No</button>  
+                <button class="response-button{{ imageEmotionType }} response-button-left"  onclick="submitResponse('Yes')">Yes</button>
+                <button class="response-button{{ imageEmotionType }} response-button-right"  onclick="submitResponse('No')">No</button>  
         </div>
         <br><br>
     </div>
@@ -179,30 +179,15 @@
     <div id="currentEmotionCard" class="card" style="display: none;">
         <h2>How are you feeling?</h2>
         <div id="emotion-images">
-            <button onclick="getCurrentEmotion('amusement');">
-                <img src="{{ url_for('static', filename='images/emoji/amusement.png') }}" alt="Emotion 1" class="emotion-image">
-            </button>
-            <button onclick="getCurrentEmotion('awe')">
-                <img src="{{ url_for('static', filename='images/emoji/awe.png') }}" alt="Emotion 2" class="emotion-image">
-            </button>
-            <button onclick="getCurrentEmotion('contentment')">
-                <img src="{{ url_for('static', filename='images/emoji/contentment.png') }}" alt="Emotion 3" class="emotion-image">
-            </button>
-            <button onclick="getCurrentEmotion('excitement')">
-                <img src="{{ url_for('static', filename='images/emoji/excitement.png') }}" alt="Emotion 4" class="emotion-image">
-            </button>
-            <button onclick="getCurrentEmotion('anger')">
-                <img src="{{ url_for('static', filename='images/emoji/anger.png') }}" alt="Emotion 5" class="emotion-image">
-            </button>
-            <button onclick="getCurrentEmotion('disgust')">
-                <img src="{{ url_for('static', filename='images/emoji/disgust.png') }}" alt="Emotion 6" class="emotion-image">
-            </button>
-            <button onclick="getCurrentEmotion('fear')">
-                <img src="{{ url_for('static', filename='images/emoji/fear.png') }}" alt="Emotion 7" class="emotion-image">
-            </button>
-            <button onclick="getCurrentEmotion('sadness')">
-                <img src="{{ url_for('static', filename='images/emoji/sadness.png') }}" alt="Emotion 8" class="emotion-image">
-            </button>
+                <img onclick="getCurrentEmotion('amusement')" src="{{ url_for('static', filename='images/emoji/amusement.png') }}" alt="Emotion 1" class="emotion-image">
+                <img onclick="getCurrentEmotion('awe')" src="{{ url_for('static', filename='images/emoji/awe.png') }}" alt="Emotion 2" class="emotion-image">
+                <img onclick="getCurrentEmotion('contentment')" src="{{ url_for('static', filename='images/emoji/contentment.png') }}" alt="Emotion 3" class="emotion-image">
+                <img onclick="getCurrentEmotion('excitement')" src="{{ url_for('static', filename='images/emoji/excitement.png') }}" alt="Emotion 4" class="emotion-image">
+                <img onclick="getCurrentEmotion('disgust')" src="{{ url_for('static', filename='images/emoji/disgust.png') }}" alt="Emotion 6" class="emotion-image">
+                <img onclick="getCurrentEmotion('anger')" src="{{ url_for('static', filename='images/emoji/anger.png') }}" alt="Emotion 5" class="emotion-image">
+                <img onclick="getCurrentEmotion('fear')" src="{{ url_for('static', filename='images/emoji/fear.png') }}" alt="Emotion 7" class="emotion-image">
+                <img onclick="getCurrentEmotion('sadness')" src="{{ url_for('static', filename='images/emoji/sadness.png') }}" alt="Emotion 8" class="emotion-image">
+            
         </div>
         <br>
         <p><a href="{{ url_for('results') }}">View Results</a></p>

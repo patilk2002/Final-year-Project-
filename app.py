@@ -26,10 +26,15 @@ def index():
     # question = questions[0]['question']
     images = [image for image in os.listdir(os.path.join(app.static_folder, 'images')) if image.endswith(('.png', '.jpg', '.jpeg'))]
     random_image = choice(images) if images else None
-    image_name=random_image[:-6]
+
+    image_emotion=random_image[:-10]
+    image_emotion_type=''
+    if image_emotion not in ['amusement', 'awe', 'contentment', 'excitement'] :
+        image_emotion_type = '-negative'
+
     question= "Do you think this image representing "+random_image[:-10]+" ?"
 
-    return render_template('index.html', question=question, randomImage=random_image)
+    return render_template('index.html', question=question, randomImage=random_image, imageEmotionType=image_emotion_type)
 
 @app.route('/submit', methods=['POST'])
 def submit():
