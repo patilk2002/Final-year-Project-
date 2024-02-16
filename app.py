@@ -17,6 +17,8 @@ questions = [
 responses = []
 labels=[]
 image_name=""
+responseTimes = []
+currentEmotions = []
 
 
 @app.route('/')
@@ -24,10 +26,15 @@ def index():
     # question = questions[0]['question']
     images = [image for image in os.listdir(os.path.join(app.static_folder, 'images')) if image.endswith(('.png', '.jpg', '.jpeg'))]
     random_image = choice(images) if images else None
-    image_name=random_image[:-6]
+
+    image_emotion=random_image[:-10]
+    image_emotion_type=''
+    if image_emotion not in ['amusement', 'awe', 'contentment', 'excitement'] :
+        image_emotion_type = '-negative'
+
     question= "Do you think this image representing "+random_image[:-10]+" ?"
 
-    return render_template('index.html', question=question, randomImage=random_image)
+    return render_template('index.html', question=question, randomImage=random_image, imageEmotionType=image_emotion_type)
 
 @app.route('/submit', methods=['POST'])
 def submit():
@@ -37,6 +44,11 @@ def submit():
     label = request.form['label']
     labels.append(label)
 
+    responseTime = request.form['responseTime']
+    responseTimes.append(responseTime)
+
+    currentEmotion = request.form['currentEmotion']
+    currentEmotions.append(currentEmotion)
 
     # Get mouse tracking data
     mouse_data = request.form['mouse_data']
@@ -50,7 +62,7 @@ def submit():
         mouse_data_list = []
 
     # Add mouse tracking data to CSV file with the label
-    write_mouse_tracking_to_csv(label, response, mouse_data_list)
+    write_mouse_tracking_to_csv(label, response, responseTime, currentEmotion, mouse_data_list)
 
     # Move to the next question or show results when all questions are answered
     next_question_index = len(responses)
@@ -70,7 +82,7 @@ def submit():
 #         print(type(i))
 #         cor_x.append(i["x"])
 #         cor_y.append(i["y"])
-def write_mouse_tracking_to_csv(label, response, mouse_data_list):
+def write_mouse_tracking_to_csv(label, response, responseTime, currentEmotion, mouse_data_list):
     cor_x = []
     cor_y = []
 
@@ -81,7 +93,7 @@ def write_mouse_tracking_to_csv(label, response, mouse_data_list):
     os.makedirs(folder_path, exist_ok=True)  # Create folder if it doesn't exist
 
     cor_x = [point["x"] for point in mouse_data_list]
-    cor_y = [point["y"] for point in mouse_data_list]
+    cor_y = [700-point["y"] for point in mouse_data_list]
 
     plt.plot(cor_x, cor_y)
     plt.title("Mouse Tracking")
@@ -94,6 +106,7 @@ def write_mouse_tracking_to_csv(label, response, mouse_data_list):
     plt.show()
     plt.close()
 
+    print(responseTimes);
 
 
 
@@ -119,14 +132,14 @@ def write_mouse_tracking_to_csv(label, response, mouse_data_list):
     with open('mouse_tracking.csv', mode='a', newline='') as file:
         writer = csv.writer(file)
         # Add the label as the first element in the row
-        writer.writerow([label, response] + cor_x + cor_y)
+        writer.writerow([label, response, responseTime, currentEmotion] + cor_x + cor_y)
 
 
 
 @app.route('/results')
 def results():
     # Display survey results
-    zipped_data = zip(responses, labels)
+    zipped_data = zip(responses, labels, responseTimes, currentEmotions)
     return render_template('results.html', responses=responses,zipped_data=zipped_data)
 
 if __name__ == '__main__':

@@ -25,8 +25,8 @@
     </ul> -->
 
     <ul>
-        {% for response, label in zipped_data %}
-            <li>{{ response }} - {{ label }}</li>
+        {% for response, label, responseTime, currentEmotion in zipped_data %}
+            <li>{{ response }} - {{ label }} - {{ responseTime }} - {{currentEmotion}}</li>
         {% endfor %}
     </ul>
     
