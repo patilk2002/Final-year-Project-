@@ -113,7 +113,7 @@ def write_mouse_tracking_to_csv(label, response, responseTime, currentEmotion, m
     plt.ylim([0, 700])
     graph_path = os.path.join(folder_path, f"{label}_{timestamp}_graph.png")
     plt.savefig(graph_path)
-    plt.show()
+    # plt.show()
     plt.close()
 
     print(responseTimes);
