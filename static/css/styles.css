@@ -9,7 +9,7 @@ body {
 }
 
 .card {
-    margin-top: 80px; /* Adjusted margin-top to accommodate the fixed header */
+    margin-top: 40px; /* Adjusted margin-top to accommodate the fixed header */
     width: 60%;
     margin: 0 auto;
     padding: 20px;
@@ -22,7 +22,7 @@ body {
 }
 
 .card-negative {
-    margin-top: 80px; /* Adjusted margin-top to accommodate the fixed header */
+    margin-top: 40px; /* Adjusted margin-top to accommodate the fixed header */
     width: 60%;
     margin: 0 auto;
     padding: 20px;

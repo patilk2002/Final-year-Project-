@@ -39,7 +39,7 @@
     }
 
     .card {
-        margin-top: 80px; /* Adjusted margin-top to accommodate the fixed header */
+        margin-top: 40px; /* Adjusted margin-top to accommodate the fixed header */
         width: 60%;
         margin: 0 auto;
         padding: 20px;
@@ -139,10 +139,11 @@
         </form> 
     </div>
 
-    <div id="imageSection" class="card{{ imageEmotionType }}" style="display: none;">
+    <div id="imageSection" class="card{{ imageEmotionType }}" style="text-align:center;display: none;">
         <!-- <h2>{{ question }}</h2> -->
         {% if randomImage %}
             <img src="{{ url_for('static', filename='images/' + randomImage) }}" alt="Random Image" class="flask-image">
+            <br>
             <button class="button{{imageEmotionType}}" onclick="showQuestion()" style="width: 150px;">Next</button> <!-- Button to show the question form -->
         {% else %}
             <p>No images found.</p>
