@@ -13,7 +13,7 @@
     .flask-image{
     text-align: center;
     /* width: 200px; Set a fixed width */
-    height: 450px; /* Set a fixed height */
+    height: 400px; /* Set a fixed height */
     object-fit: cover; /* Maintain aspect ratio while covering the specified dimensions */
     margin-top: 10px;
     margin-bottom: 20px;
@@ -39,8 +39,8 @@
     }
 
     .card {
-        margin-top: 80px; /* Adjusted margin-top to accommodate the fixed header */
-        width: 50%;
+        margin-top: 40px; /* Adjusted margin-top to accommodate the fixed header */
+        width: 60%;
         margin: 0 auto;
         padding: 20px;
         box-sizing: border-box;
@@ -52,7 +52,7 @@
 
     .card1 {
         margin-top: 40px; /* Adjusted margin-top to accommodate the fixed header */
-        width: 50%;
+        width: 60%;
         margin: 0 auto;
         padding: 20px;
         box-sizing: border-box;
@@ -171,10 +171,11 @@
         </form> 
     </div>  
 
-    <div id="imageSection" class="card{{ imageEmotionType }}" style="display: none;">
+    <div id="imageSection" class="card{{ imageEmotionType }}" style="text-align:center;display: none;">
         <!-- <h2>{{ question }}</h2> -->
         {% if randomImage %}
             <img src="{{ url_for('static', filename='images/' + randomImage) }}" alt="Random Image" class="flask-image">
+            <br>
             <button class="button{{imageEmotionType}}" onclick="showQuestion()" style="width: 150px;">Next</button> <!-- Button to show the question form -->
         {% else %}
             <p>No images found.</p>
@@ -190,6 +191,7 @@
         {% else %}
             <p>No images found.</p>
         {% endif %} -->
+
         
         <div class="button-container" style="margin-top: 30px;">
 
