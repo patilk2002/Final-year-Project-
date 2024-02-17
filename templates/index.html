@@ -171,6 +171,20 @@
         </form> 
     </div>  
 
+    <div id="intialEmotionCard" class="card" style="display: none;">
+        <h2>How are you feeling?</h2>
+        <div id="emotion-images">
+                <img onclick="getInitialEmotion('amusement')" src="{{ url_for('static', filename='images/emoji/amusement.png') }}" alt="Emotion 1" class="emotion-image">
+                <img onclick="getInitialEmotion('awe')" src="{{ url_for('static', filename='images/emoji/awe.png') }}" alt="Emotion 2" class="emotion-image">
+                <img onclick="getInitialEmotion('contentment')" src="{{ url_for('static', filename='images/emoji/contentment.png') }}" alt="Emotion 3" class="emotion-image">
+                <img onclick="getInitialEmotion('excitement')" src="{{ url_for('static', filename='images/emoji/excitement.png') }}" alt="Emotion 4" class="emotion-image">
+                <img onclick="getInitialEmotion('disgust')" src="{{ url_for('static', filename='images/emoji/disgust.png') }}" alt="Emotion 6" class="emotion-image">
+                <img onclick="getInitialEmotion('anger')" src="{{ url_for('static', filename='images/emoji/anger.png') }}" alt="Emotion 5" class="emotion-image">
+                <img onclick="getInitialEmotion('fear')" src="{{ url_for('static', filename='images/emoji/fear.png') }}" alt="Emotion 7" class="emotion-image">
+                <img onclick="getInitialEmotion('sadness')" src="{{ url_for('static', filename='images/emoji/sadness.png') }}" alt="Emotion 8" class="emotion-image">
+        </div>
+    </div>
+
     <div id="imageSection" class="card{{ imageEmotionType }}" style="text-align:center;display: none;">
         <!-- <h2>{{ question }}</h2> -->
         {% if randomImage %}
@@ -193,6 +207,11 @@
         <div class="button-container" style="margin-top: 30px;">
 
             <form method="post" action="{{ url_for('submit') }}" id="response-form">
+                <input type="hidden" name="age" id="age-hidden-input">
+                <input type="hidden" name="gender" id="gender-hidden-input">
+                <input type="hidden" name="occupation" id="occupation-hidden-input">
+                <input type="hidden" name="computerOpSkill" id="computerOpSkill-hidden-input">
+                <input type="hidden" name="initalEmotion" id="initial-emotion-input">
                 <input type="hidden" name="response" id="response-input">
                 <input type="hidden" name="mouse_data" id="mouse-data-input">
                 <input type="hidden" name="responseTime" id="response-time-input">
@@ -208,7 +227,7 @@
     </div>
 
     <div id="currentEmotionCard" class="card" style="display: none;">
-        <h2>How are you feeling?</h2>
+        <h2>?</h2>
         <div id="emotion-images">
                 <img onclick="getCurrentEmotion('amusement')" src="{{ url_for('static', filename='images/emoji/amusement.png') }}" alt="Emotion 1" class="emotion-image">
                 <img onclick="getCurrentEmotion('awe')" src="{{ url_for('static', filename='images/emoji/awe.png') }}" alt="Emotion 2" class="emotion-image">
@@ -256,9 +275,9 @@
             });
         }
 
-        function showImg(){
+        function showInitialEmotionCard(){
             document.getElementById('infoForm').style.display = 'none';
-            document.getElementById('imageSection').style.display = 'block';
+            document.getElementById('intialEmotionCard').style.display = 'block';
 
             var localStorageValue = localStorage.getItem('alertType');
             // Display the alert based on the local storage value
@@ -278,6 +297,11 @@
                 // Set the visit count in localStorage with an initial value of 0
                 localStorage.setItem('visitCount', 0);
             }
+
+            document.getElementById('age-hidden-input').value = this.Age.value;
+            document.getElementById('gender-hidden-input').value = this.Gender.value;
+            document.getElementById('occupation-hidden-input').value = this.Occupation.value;
+            document.getElementById('computerOpSkill-hidden-input').value = this.ComputerOpSkill.value;
             let data = {
                 "occupation": this.Occupation.value, 
                 "age": this.Age.value, 
@@ -286,7 +310,14 @@
             }
             //showalert
             localStorage.setItem('alertType', 'success');
-            showImg();
+            showInitialEmotionCard();
+        }
+
+        function getInitialEmotion(emotion) {
+            console.log(emotion);
+            document.getElementById('initial-emotion-input').value = emotion;
+            document.getElementById('intialEmotionCard').style.display = 'none';
+            document.getElementById('imageSection').style.display = 'block';
         }
 
         // Function to simulate mouse movement to the center of the screen
@@ -321,7 +352,8 @@
                 }
             }
             else {
-                showImg();
+                document.getElementById('infoForm').style.display = 'none';
+                document.getElementById('imageSection').style.display = 'block';
             }
 
             // Initialize mouse tracking array
