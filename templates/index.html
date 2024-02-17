@@ -72,6 +72,35 @@
             width: 100%;
         }
 
+            /* Alert styling */
+            .alert {
+                        position:fixed;
+                        bottom: 90px;
+                        right: 30px;
+                        background-color: #4CAF50;
+                        color: #f8f0f0;
+                        padding: 15px;
+                        border-radius: 5px;
+                        display: none; /* Hide initially */
+                        z-index: 1;
+                    }
+
+                    /* Different styles based on the type of alert */
+                    .alert-success {
+                        background-color: #4CAF50;
+                    }
+
+                    .alert-endsur {
+                        background-color: #4CAF50;
+                    }
+                    
+                    .alert-warning {
+                        background-color: #FFC107;
+                    }
+
+                    .alert-danger {
+                        background-color: #FF5722;
+                    }
     </style>
 
 </head>
@@ -81,7 +110,10 @@
         <h2>SURVEY FORM </h2>
     </div>
 
-    <div id="infoForm" class="card" style="display: block;">
+     <!-- Alert container -->
+     <div id="alertContainer" class="alert"></div>
+
+  <div id="infoForm" class="card" style="display: block;">
         <h1 style="text-align: center;">
             Basic Info
         </h1>
@@ -137,6 +169,20 @@
                     name="Reset" />
             </p>
         </form> 
+    </div>  
+
+    <div id="intialEmotionCard" class="card" style="display: none;">
+        <h2>How are you feeling?</h2>
+        <div id="emotion-images">
+                <img onclick="getInitialEmotion('amusement')" src="{{ url_for('static', filename='images/emoji/amusement.png') }}" alt="Emotion 1" class="emotion-image">
+                <img onclick="getInitialEmotion('awe')" src="{{ url_for('static', filename='images/emoji/awe.png') }}" alt="Emotion 2" class="emotion-image">
+                <img onclick="getInitialEmotion('contentment')" src="{{ url_for('static', filename='images/emoji/contentment.png') }}" alt="Emotion 3" class="emotion-image">
+                <img onclick="getInitialEmotion('excitement')" src="{{ url_for('static', filename='images/emoji/excitement.png') }}" alt="Emotion 4" class="emotion-image">
+                <img onclick="getInitialEmotion('disgust')" src="{{ url_for('static', filename='images/emoji/disgust.png') }}" alt="Emotion 6" class="emotion-image">
+                <img onclick="getInitialEmotion('anger')" src="{{ url_for('static', filename='images/emoji/anger.png') }}" alt="Emotion 5" class="emotion-image">
+                <img onclick="getInitialEmotion('fear')" src="{{ url_for('static', filename='images/emoji/fear.png') }}" alt="Emotion 7" class="emotion-image">
+                <img onclick="getInitialEmotion('sadness')" src="{{ url_for('static', filename='images/emoji/sadness.png') }}" alt="Emotion 8" class="emotion-image">
+        </div>
     </div>
 
     <div id="imageSection" class="card{{ imageEmotionType }}" style="text-align:center;display: none;">
@@ -150,8 +196,6 @@
         {% endif %}
     </div>
 
-
-
     <div id="questionSection" class="card{{ imageEmotionType }}" style="display: none;">
         <h2>{{ question }}</h2>
         <!-- {% if randomImage %}
@@ -160,10 +204,15 @@
             <p>No images found.</p>
         {% endif %} -->
 
-        
         <div class="button-container" style="margin-top: 30px;">
 
             <form method="post" action="{{ url_for('submit') }}" id="response-form">
+                <input type="hidden" name="userId" id="user-id-input">
+                <input type="hidden" name="age" id="age-hidden-input">
+                <input type="hidden" name="gender" id="gender-hidden-input">
+                <input type="hidden" name="occupation" id="occupation-hidden-input">
+                <input type="hidden" name="computerOpSkill" id="computerOpSkill-hidden-input">
+                <input type="hidden" name="initialEmotion" id="initial-emotion-input">
                 <input type="hidden" name="response" id="response-input">
                 <input type="hidden" name="mouse_data" id="mouse-data-input">
                 <input type="hidden" name="responseTime" id="response-time-input">
@@ -179,7 +228,7 @@
     </div>
 
     <div id="currentEmotionCard" class="card" style="display: none;">
-        <h2>How are you feeling?</h2>
+        <h2>?</h2>
         <div id="emotion-images">
                 <img onclick="getCurrentEmotion('amusement')" src="{{ url_for('static', filename='images/emoji/amusement.png') }}" alt="Emotion 1" class="emotion-image">
                 <img onclick="getCurrentEmotion('awe')" src="{{ url_for('static', filename='images/emoji/awe.png') }}" alt="Emotion 2" class="emotion-image">
@@ -194,12 +243,10 @@
         <br>
         <p><a href="{{ url_for('results') }}">View Results</a></p>
     </div>
-    
 
     <div class="footer">
         <p>&copy; 2023 Kiran Patil. All rights reserved.</p>
     </div>
-
 
     <script>
         let startTime, endTime, responseTime;
@@ -223,18 +270,21 @@
             document.getElementById('questionSection').style.display = 'block';
            
             document.addEventListener("mousemove", function (event) {
-            var x = event.clientX;
-            var y = event.clientY;
-            mouseData.push({ x: x, y: y });
-            
+                var x = event.clientX;
+                var y = event.clientY;
+                mouseData.push({ x: x, y: y });
             });
-        
-           
         }
 
-        function showImg(){
+        function showInitialEmotionCard(){
             document.getElementById('infoForm').style.display = 'none';
-            document.getElementById('imageSection').style.display = 'block';
+            document.getElementById('intialEmotionCard').style.display = 'block';
+
+            var localStorageValue = localStorage.getItem('alertType');
+            // Display the alert based on the local storage value
+            if (localStorageValue) {
+                displayAlert(localStorageValue);
+            }
         }
 
         let form = document.forms["info-form"];
@@ -243,19 +293,43 @@
         function getValues(event){
             event.preventDefault();
 
+               // Check if visit count value exists in localStorage
+            if (!localStorage.getItem('visitCount')) {
+                // Set the visit count in localStorage with an initial value of 0
+                localStorage.setItem('visitCount', 0);
+            }
+
+            let dateTime = new Date().toLocaleDateString("en-IN", {
+                day:    '2-digit',
+                month:  '2-digit',
+                year:   '2-digit',
+                hour:   '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false
+            });
+            let userId = dateTime.replace(/\/|,|:| |AM|PM/g,"");
+            document.getElementById('user-id-input').value = userId;
+
+            document.getElementById('age-hidden-input').value = this.Age.value;
+            document.getElementById('gender-hidden-input').value = this.Gender.value;
+            document.getElementById('occupation-hidden-input').value = this.Occupation.value;
+            document.getElementById('computerOpSkill-hidden-input').value = this.ComputerOpSkill.value;
             let data = {
                 "occupation": this.Occupation.value, 
                 "age": this.Age.value, 
                 "gender": this.Gender.value,
                 "computerOpSkill": this.ComputerOpSkill.value,
             }
-            
-            showImg();
+            //showalert
+            localStorage.setItem('alertType', 'success');
+            showInitialEmotionCard();
         }
 
-        function showimg(){
-            console.log("hi, hello!!!!!");
-            document.getElementById('infoForm').style.display = 'none';
+        function getInitialEmotion(emotion) {
+            console.log(emotion);
+            document.getElementById('initial-emotion-input').value = emotion;
+            document.getElementById('intialEmotionCard').style.display = 'none';
             document.getElementById('imageSection').style.display = 'block';
         }
 
@@ -274,25 +348,31 @@
         // // Call the function on page load
         // window.onload = moveCursorToCenter;
 
-
-
-
         var mouseData = [];
-
-
 
         document.addEventListener("DOMContentLoaded", function () {
             document.querySelector('.card').classList.add('fade-in');
             console.log("test");
-            // Initialize mouse tracking array
 
-           
-    
+            //code to display form based on setvalue local storage value 
+            if (!localStorage.getItem('visitCount')) {
+                // Render the form code
+                document.getElementById('infoForm').style.display = 'block';
+                var localStorageValue = localStorage.getItem('alertType');
+                // Display the alert based on the local storage value
+                if (localStorageValue) {
+                    displayAlert(localStorageValue);
+                }
+            }
+            else {
+                document.getElementById('infoForm').style.display = 'none';
+                document.getElementById('imageSection').style.display = 'block';
+            }
+
+            // Initialize mouse tracking array
             // Track mouse movements
-            
-           
              /*document.addEventListener("mousemove", function (event) {
-            var x = event.clientX;
+            var x = event.clientX; 
             var y = event.clientY;
             mouseData.push({ x: x, y: y });
            // console.log('Mouse Data:', mouseData);
@@ -309,8 +389,6 @@
                 //console.log("test");
             });
         });
-    
-
         
         function submitResponse(response) {
             getEndTime();
@@ -327,6 +405,44 @@
             console.log(emotion);
             document.getElementById('current-emotion-input').value = emotion;
             document.getElementById('response-form').submit();
+        }
+
+        // below functions displays alert
+        function displayAlert(type) {
+            var alertContainer = document.getElementById('alertContainer');
+            var alertText = '';
+
+            // Set alert text based on the type
+            switch (type) {
+                case 'success':
+                    alertText = 'Your survey has began successfully ';
+                    break;
+                case 'endsur':
+                    alertText = 'Thank you for filling out this survey 😊😊';
+                    break;
+                case 'warning':
+                    alertText = 'Warning: Proceed with caution.';
+                    break;
+                case 'danger':
+                    alertText = 'Error: Something went wrong.';
+                    break;
+                default:
+                    alertText = 'Default Alert.';
+                    break;
+            }
+
+            // Set the alert text and style
+            alertContainer.innerHTML = alertText;
+            alertContainer.className = 'alert alert-' + type;
+
+            // Display the alert
+            alertContainer.style.display = 'block';
+
+            // Clear local storage value after 2 seconds
+            setTimeout(function () {
+                alertContainer.style.display = 'none'; // Hide the alert
+                localStorage.removeItem('alertType'); // Remove 'alertType' from local storage
+            }, 2000); // 2000 milliseconds (2 seconds)
         }
     </script>
 </body>
