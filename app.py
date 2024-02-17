@@ -44,7 +44,7 @@ def plot_mouse_tracking(label, mouse_data_list):
     plt.close()
 
 
-def write_mouse_tracking_to_csv(label, response, responseTime, currentEmotion, mouse_data_list):
+def write_mouse_tracking_to_csv(userId, age, gender, occupation, computerOpSkill, label, response, responseTime, currentEmotion, mouse_data_list):
     # Plotting in a separate thread to avoid Matplotlib warning
     plot_thread = Thread(target=plot_mouse_tracking, args=(label, mouse_data_list))
     plot_thread.start()
@@ -58,12 +58,12 @@ def write_mouse_tracking_to_csv(label, response, responseTime, currentEmotion, m
 
     with open('mouse_tracking.csv', mode='a', newline='') as file:
         writer = csv.writer(file)
-        writer.writerow([label, response, responseTime, currentEmotion] + cor_x + cor_y)
+        writer.writerow([userId, age, gender, occupation, computerOpSkill, label, response, responseTime, currentEmotion] + cor_x + cor_y)
 
     with open('mouse_tracking_new.csv', mode='a', newline='') as file:
         writer = csv.writer(file)
         # Add the label as the first element in the row
-        writer.writerow([label, response, responseTime, currentEmotion,mouse_data_list])
+        writer.writerow([userId, age, gender, occupation, computerOpSkill, label, response, responseTime, currentEmotion,mouse_data_list])
 
 @app.route('/')
 def index():
@@ -84,6 +84,16 @@ def index():
 
 @app.route('/submit', methods=['POST'])
 def submit():
+    userId = request.form['userId']
+    age = request.form['age']
+    gender = request.form['gender']
+    occupation = request.form['occupation']
+    computerOpSkill = request.form['computerOpSkill']
+    initialEmotion = request.form['initialEmotion']
+
+    print("age : ", age)
+    print("userId : ", userId)
+
     response = request.form['response']
     responses.append(response)
 
@@ -120,7 +130,7 @@ def submit():
         mouse_data_list = []
 
     # Add mouse tracking data to CSV file with the label
-    write_mouse_tracking_to_csv(label, response, responseTime, currentEmotion, mouse_data_list)
+    write_mouse_tracking_to_csv(userId, age, gender, occupation, computerOpSkill, label, response, responseTime, currentEmotion, mouse_data_list)
 
     # Move to the next question or show results when all questions are answered
     next_question_index = len(responses)

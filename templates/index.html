@@ -207,11 +207,12 @@
         <div class="button-container" style="margin-top: 30px;">
 
             <form method="post" action="{{ url_for('submit') }}" id="response-form">
+                <input type="hidden" name="userId" id="user-id-input">
                 <input type="hidden" name="age" id="age-hidden-input">
                 <input type="hidden" name="gender" id="gender-hidden-input">
                 <input type="hidden" name="occupation" id="occupation-hidden-input">
                 <input type="hidden" name="computerOpSkill" id="computerOpSkill-hidden-input">
-                <input type="hidden" name="initalEmotion" id="initial-emotion-input">
+                <input type="hidden" name="initialEmotion" id="initial-emotion-input">
                 <input type="hidden" name="response" id="response-input">
                 <input type="hidden" name="mouse_data" id="mouse-data-input">
                 <input type="hidden" name="responseTime" id="response-time-input">
@@ -297,6 +298,18 @@
                 // Set the visit count in localStorage with an initial value of 0
                 localStorage.setItem('visitCount', 0);
             }
+
+            let dateTime = new Date().toLocaleDateString("en-IN", {
+                day:    '2-digit',
+                month:  '2-digit',
+                year:   '2-digit',
+                hour:   '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false
+            });
+            let userId = dateTime.replace(/\/|,|:| |AM|PM/g,"");
+            document.getElementById('user-id-input').value = userId;
 
             document.getElementById('age-hidden-input').value = this.Age.value;
             document.getElementById('gender-hidden-input').value = this.Gender.value;
