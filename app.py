@@ -1,5 +1,4 @@
 # app.py
-
 from flask import Flask, render_template, request, redirect, url_for
 import csv
 import json
@@ -22,9 +21,54 @@ image_name = ""
 responseTimes = []
 currentEmotions = []
 
+# Force Matplotlib to use non-interactive backend
+matplotlib.use('Agg')
+
+def plot_mouse_tracking(label, mouse_data_list):
+    cor_x = [point["x"] for point in mouse_data_list]
+    cor_y = [point["y"] for point in mouse_data_list]
+
+    timestamp = datetime.now().strftime('%Y%m%d%H%M%S%f')
+
+    folder_path = os.path.join("static", "graphs", label)
+    os.makedirs(folder_path, exist_ok=True)  # Create folder if it doesn't exist
+
+    plt.plot(cor_x, cor_y)
+    plt.title("Mouse Tracking")
+    plt.xlabel("X-coordinate")
+    plt.ylabel("Y-coordinate")
+    plt.xlim([0, 1600])
+    plt.ylim([0, 700])
+    graph_path = os.path.join(folder_path, f"{label}_{timestamp}_graph.png")
+    plt.savefig(graph_path)
+    plt.close()
+
+
+def write_mouse_tracking_to_csv(label, response, responseTime, currentEmotion, mouse_data_list):
+    # Plotting in a separate thread to avoid Matplotlib warning
+    plot_thread = Thread(target=plot_mouse_tracking, args=(label, mouse_data_list))
+    plot_thread.start()
+
+    cor_x = [point["x"] for point in mouse_data_list]
+    cor_y = [point["y"] for point in mouse_data_list]
+
+    for i in mouse_data_list:
+        cor_x.append(i["x"])
+        cor_y.append(i["y"])
+
+    with open('mouse_tracking.csv', mode='a', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow([label, response, responseTime, currentEmotion] + cor_x + cor_y)
+
+    with open('mouse_tracking_new.csv', mode='a', newline='') as file:
+        writer = csv.writer(file)
+        # Add the label as the first element in the row
+        writer.writerow([label, response, responseTime, currentEmotion,mouse_data_list])
+
 @app.route('/')
 def index():
-    images = [image for image in os.listdir(os.path.join(app.static_folder, 'images')) if image.endswith(('.png', '.jpg', '.jpeg'))]
+    images = [image for image in os.listdir(os.path.join(app.static_folder, 'images')) if
+              image.endswith(('.png', '.jpg', '.jpeg'))]
     random_image = choice(images) if images else None
     
     image_emotion=random_image[:-10]
@@ -37,14 +81,17 @@ def index():
     return render_template('index.html', question=question, randomImage=random_image, imageEmotionType=image_emotion_type)
 
 
+
 @app.route('/submit', methods=['POST'])
 def submit():
     response = request.form['response']
     responses.append(response)
 
-
     label = request.form['label']
     labels.append(label)
+
+    # Get mouse tracking data
+    mouse_data = request.form['mouse_data']
 
     responseTime = request.form['responseTime']
     responseTimes.append(responseTime)
@@ -82,75 +129,6 @@ def submit():
         return render_template('index.html', question=question)
     else:
         return redirect(url_for('results'))
-
-
-# def write_mouse_tracking_to_csv(response, mouse_data_list):
-#     cor_x=[]
-#     cor_y=[]
-
-#     for i in mouse_data_list:
-#         print("hello")
-#         print(type(i))
-#         cor_x.append(i["x"])
-#         cor_y.append(i["y"])
-def write_mouse_tracking_to_csv(label, response, responseTime, currentEmotion, mouse_data_list):
-    cor_x = []
-    cor_y = []
-
-    timestamp = datetime.now().strftime('%Y%m%d%H%M%S%f')
-
-
-    folder_path = os.path.join("static", "graphs", label)
-    os.makedirs(folder_path, exist_ok=True)  # Create folder if it doesn't exist
-
-    cor_x = [point["x"] for point in mouse_data_list]
-    cor_y = [700-point["y"] for point in mouse_data_list]
-
-    plt.plot(cor_x, cor_y)
-    plt.title("Mouse Tracking")
-    plt.xlabel("X-coordinate")
-    plt.ylabel("Y-coordinate")
-    plt.xlim([0, 1600])
-    plt.ylim([0, 700])
-    graph_path = os.path.join(folder_path, f"{label}_{timestamp}_graph.png")
-    plt.savefig(graph_path)
-    # plt.show()
-    plt.close()
-
-    print(responseTimes);
-
-
-
-
-    for i in mouse_data_list:
-        cor_x.append(i["x"])
-        cor_y.append(i["y"])
-
-    print(cor_x)
-    print(cor_y)
-
-    plt.plot(cor_x, cor_y) 
-    plt.xlim([0, 1600])
-    plt.ylim([0, 700])
-    # plt.show()
-    plt.close()
-
-    # with open('mouse_tracking.csv', mode='a', newline='') as file:
-    #     writer = csv.writer(file)
-    #     writer.writerow([response, mouse_data_list])
-
-
-    with open('mouse_tracking.csv', mode='a', newline='') as file:
-        writer = csv.writer(file)
-        # Add the label as the first element in the row
-        writer.writerow([label, response, responseTime, currentEmotion] + cor_x + cor_y)
-
-
-    with open('mouse_tracking_new.csv', mode='a', newline='') as file:
-        writer = csv.writer(file)
-        # Add the label as the first element in the row
-        writer.writerow([label, response, responseTime, currentEmotion,mouse_data_list])
-
 
 @app.route('/results')
 def results():
