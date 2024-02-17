@@ -91,12 +91,14 @@ def index():
 
 @app.route('/submit', methods=['POST'])
 def submit():
-    userId = request.form['userId']
-    age = request.form['age']
-    gender = request.form['gender']
-    occupation = request.form['occupation']
-    computerOpSkill = request.form['computerOpSkill']
-    initialEmotion = request.form['initialEmotion']
+    global userId, age, gender, occupation, computerOpSkill, initialEmotion
+    if userId=="":
+        userId = request.form['userId']
+        age = request.form['age']
+        gender = request.form['gender']
+        occupation = request.form['occupation']
+        computerOpSkill = request.form['computerOpSkill']
+        initialEmotion = request.form['initialEmotion']
 
     print("age : ", age)
     print("userId : ", userId)
