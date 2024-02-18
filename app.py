@@ -8,7 +8,7 @@ import os
 from random import choice
 from datetime import datetime
 from threading import Thread
-
+import pandas as pd 
 app = Flask(__name__)
 
 questions = [
@@ -83,8 +83,19 @@ def index():
     if image_emotion not in ['amusement', 'awe', 'contentment', 'excitement'] :
         image_emotion_type = '-negative'
 
-    question= "Do you think this image representing "+random_image[:-10]+" ?"
+    # question= "Do you think this image representing "+random_image[:-10]+" ?"
+    # debugging 
+    # Specify the file path
+    csv_file_path = 'static/questions/MMPI_questions.csv'
 
+    # Read the CSV file into a DataFrame
+    df = pd.read_csv(csv_file_path)
+    df.columns = ['Sr','Question','ans1','ans2','ans3','ans4','ans5']
+    print("\n")
+    print("\n")
+    random_row = df.sample(n=1)
+    print(random_row)
+    question = random_row['Question'].values[0]
     return render_template('index.html', question=question, randomImage=random_image, imageEmotionType=image_emotion_type)
 
 
