@@ -51,7 +51,7 @@ def plot_mouse_tracking(label, mouse_data_list):
     plt.close()
 
 
-def write_mouse_tracking_to_csv(userId, initialEmotion, age, gender, occupation, computerOpSkill, label, response, responseTime, currentEmotion, mouse_data_list):
+def write_mouse_tracking_to_csv(userId, initialEmotion, age, gender, occupation, computerOpSkill, label, response, responseTime, currentEmotion, mouse_data_list, no_of_clicks, mouse_clicks_list, mouse_downtimes_list):
     # Plotting in a separate thread to avoid Matplotlib warning
     plot_thread = Thread(target=plot_mouse_tracking, args=(label, mouse_data_list))
     plot_thread.start()
@@ -70,7 +70,7 @@ def write_mouse_tracking_to_csv(userId, initialEmotion, age, gender, occupation,
     with open('mouse_tracking_new.csv', mode='a', newline='') as file:
         writer = csv.writer(file)
         # Add the label as the first element in the row
-        writer.writerow([userId, initialEmotion, age, gender, occupation, computerOpSkill, label, response, responseTime, currentEmotion,mouse_data_list])
+        writer.writerow([userId, initialEmotion, age, gender, occupation, computerOpSkill, label, response, responseTime, currentEmotion,mouse_data_list, no_of_clicks, mouse_clicks_list, mouse_downtimes_list])
 
 @app.route('/')
 def index():
@@ -122,6 +122,10 @@ def submit():
 
     # Get mouse tracking data
     mouse_data = request.form['mouse_data']
+    mouse_clicks = request.form['mouse_clicks']
+    mouse_downtimes = request.form['mouse_downtimes']
+    mouse_downtimes_list = mouse_downtimes[1:-1].split(",")
+    no_of_clicks = len(mouse_downtimes_list)
 
     responseTime = request.form['responseTime']
     responseTimes.append(responseTime)
@@ -134,8 +138,9 @@ def submit():
 
     print("\n")
 
-    print("mouse data")
-    print(mouse_data)
+    print("mouse downtimes")
+    print(mouse_downtimes)
+    print(no_of_clicks)
     
     print("\n")
     print("response")
@@ -148,9 +153,14 @@ def submit():
         mouse_data_list = json.loads(mouse_data)
     except json.JSONDecodeError:
         mouse_data_list = []
+    
+    try:
+        mouse_clicks_list = json.loads(mouse_clicks)
+    except json.JSONDecodeError:
+        mouse_clicks_list = []                       
 
     # Add mouse tracking data to CSV file with the label
-    write_mouse_tracking_to_csv(userId, initialEmotion, age, gender, occupation, computerOpSkill, label, response, responseTime, currentEmotion, mouse_data_list)
+    write_mouse_tracking_to_csv(userId, initialEmotion, age, gender, occupation, computerOpSkill, label, response, responseTime, currentEmotion, mouse_data_list, no_of_clicks, mouse_clicks_list, mouse_downtimes_list)
 
     # Move to the next question or show results when all questions are answered
     next_question_index = len(responses)

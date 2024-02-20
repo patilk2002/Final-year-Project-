@@ -215,6 +215,8 @@
                 <input type="hidden" name="initialEmotion" id="initial-emotion-input">
                 <input type="hidden" name="response" id="response-input">
                 <input type="hidden" name="mouse_data" id="mouse-data-input">
+                <input type="hidden" name="mouse_clicks" id="mouse-clicks-input">
+                <input type="hidden" name="mouse_downtimes" id="mouse-downtimes-input">
                 <input type="hidden" name="responseTime" id="response-time-input">
                 <input type="hidden" name="currentEmotion" id="current-emotion-input">
                 <!-- Add a new input field for the label -->
@@ -273,6 +275,20 @@
                 var x = event.clientX;
                 var y = event.clientY;
                 mouseData.push({ x: x, y: y });
+            });
+
+            document.addEventListener("mousedown", function (event) {
+                clickStartTime = Date.now();
+                var x = event.clientX;
+                var y = event.clientY;
+                mouseClicks.push({ x: x, y: y });
+                console.log(mouseClicks);
+            })
+
+            document.addEventListener('mouseup', () => {
+                const downtime = Date.now() - clickStartTime;
+                mouseDowntimes.push(downtime);
+                console.log(mouseDowntimes);
             });
         }
 
@@ -365,6 +381,9 @@
         // window.onload = moveCursorToCenter;
 
         var mouseData = [];
+        var mouseClicks = [];
+        var mouseDowntimes = [];
+        let clickStartTime = 0; 
 
         document.addEventListener("DOMContentLoaded", function () {
             document.querySelector('.card').classList.add('fade-in');
@@ -385,7 +404,7 @@
                 document.getElementById('imageSection').style.display = 'block';
 
                 var button = document.getElementById('next-button');
-                var time = 5;
+                var time = 10;
                 var timer = setInterval(function() {
                     if (time > 0) {
                         time--;
@@ -412,8 +431,9 @@
 
             // Submit mouse data when the form is submitted
             document.getElementById('response-form').addEventListener('submit', function () {
-                // document.getElementById('mouse-data-input').value = JSON.stringify(mouseData);
                 document.getElementById('mouse-data-input').value = JSON.stringify(mouseData);
+                document.getElementById('mouse-clicks-input').value = JSON.stringify(mouseClicks);
+                document.getElementById('mouse-downtimes-input').value = JSON.stringify(mouseDowntimes);
 
                // console.log('Mouse Data:', JSON.stringify(mouseData)); // Log mouse data for debugging
                 //console.log("test");
@@ -427,6 +447,8 @@
             document.getElementById('response-time-input').value = responseTime;
             document.getElementById('response-input').value = response;
             document.getElementById('mouse-data-input').value = JSON.stringify(mouseData);
+            document.getElementById('mouse-clicks-input').value = JSON.stringify(mouseClicks);
+            document.getElementById('mouse-downtimes-input').value = JSON.stringify(mouseDowntimes);
             document.getElementById('questionSection').style.display = 'none';
             document.getElementById('currentEmotionCard').style.display = 'block';
         }
