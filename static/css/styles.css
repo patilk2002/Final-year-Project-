@@ -21,6 +21,21 @@ body {
     
 }
 
+.card1 {
+    margin-top: 40px; /* Adjusted margin-top to accommodate the fixed header */
+    width: 60%;
+    margin: 0 auto;
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 1s ease-in-out;
+    overflow-x: hidden;
+    overflow-y: auto;
+    text-align: justify;
+}
+
 .card-negative {
     margin-top: 40px; /* Adjusted margin-top to accommodate the fixed header */
     width: 60%;
