@@ -186,15 +186,26 @@
     </div>
 
     <div id="imageSection" class="card{{ imageEmotionType }}" style="text-align:center;display: none;">
-        <!-- <h2>{{ question }}</h2> -->
         {% if randomImage %}
-            <img src="{{ url_for('static', filename='images/' + randomImage) }}" alt="Random Image" class="flask-image">
+            {% if randomImage.endswith('.mp4') or randomImage.endswith('.avi') or randomImage.endswith('.mov') %}
+                <video controls class="flask-video">
+                    <source src="{{ url_for('static', filename='images/Video_dataset/' + randomImage) }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            {% else %}
+                <img src="{{ url_for('static', filename='images/Image_dataset/' + randomImage) }}" alt="Random Image" class="flask-image">
+            {% endif %}
             <br>
             <button disabled id="next-button" class="button{{imageEmotionType}}" onclick="showQuestion()" style="width: 150px;">Wait [10]</button> <!-- Button to show the question form -->
         {% else %}
-            <p>No images found.</p>
+            <p>No media found.</p>
         {% endif %}
     </div>
+
+
+
+
+
 
     <div id="questionSection" class="card{{ imageEmotionType }}" style="display: none;">
         <h2>{{ question }}</h2>

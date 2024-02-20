@@ -31,6 +31,10 @@ image_name = ""
 responseTimes = []
 currentEmotions = []
 
+random_images = []
+random_videos = []
+
+
 # Force Matplotlib to use non-interactive backend
 matplotlib.use('Agg')
 
@@ -75,13 +79,13 @@ def write_mouse_tracking_to_csv(userId, initialEmotion, age, gender, occupation,
         # Add the label as the first element in the row
         writer.writerow([userId, initialEmotion, age, gender, occupation, computerOpSkill, label, response, responseTime, currentEmotion,mouse_data_list])
 
+
+
 @app.route('/')
 def index():
-    images = [image for image in os.listdir(os.path.join(app.static_folder, 'images')) if
-              image.endswith(('.png', '.jpg', '.jpeg'))]
-    random_image = choice(images) if images else None
-    
-
+    # images = [image for image in os.listdir(os.path.join(app.static_folder, 'images')) if
+    #           image.endswith(('.png', '.jpg', '.jpeg'))]
+    # random_image = choice(images) if images else None
 
     # Define the paths to your image and video datasets
     image_folder = 'Image_dataset'
@@ -89,29 +93,12 @@ def index():
 
     # Function to get a list of random files from a folder
     def get_random_files(folder, num_files):
-        files = [os.path.join(folder, f) for f in os.listdir(folder)]
+        files = [f for f in os.listdir(folder)]
         return sample(files, min(num_files, len(files)))
 
     # Select 6 random images and 4 random videos
     random_images = get_random_files(os.path.join(app.static_folder, 'images/Image_dataset'), 5)
     random_videos = get_random_files(os.path.join(app.static_folder, 'images/Video_dataset'), 5)
-
-    print("\n")
-    print("\n")
-
-    # Print the paths (you can store them in lists if needed)
-    print("Random Images:")
-    for img in random_images:
-        print(img)
-
-    print("\nRandom Videos:")
-    for vid in random_videos:
-        print(vid)
-
-
-    print("\n")
-    print("\n")
-
 
     # Create the final list alternating between images and videos
     final_list = []
@@ -119,13 +106,14 @@ def index():
         final_list.append(random_images[i])
         final_list.append(random_videos[i])
 
-
-    # Print the final list (you can store it in a variable if needed)
-    for item in final_list:
-        print(item)
-
-
-
+    global count
+    count = len(responses)
+    random_image = final_list[count]
+    print(count)
+    print(random_image)
+    
+    
+    # count+=1
 
     image_emotion=random_image[:-10]
     image_emotion_type=''
