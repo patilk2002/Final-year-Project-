@@ -9,6 +9,9 @@ from random import choice
 from datetime import datetime
 from threading import Thread
 import pandas as pd 
+from random import sample
+
+
 app = Flask(__name__)
 
 questions = [
@@ -78,6 +81,52 @@ def index():
               image.endswith(('.png', '.jpg', '.jpeg'))]
     random_image = choice(images) if images else None
     
+
+
+    # Define the paths to your image and video datasets
+    image_folder = 'Image_dataset'
+    video_folder = 'Video_dataset'
+
+    # Function to get a list of random files from a folder
+    def get_random_files(folder, num_files):
+        files = [os.path.join(folder, f) for f in os.listdir(folder)]
+        return sample(files, min(num_files, len(files)))
+
+    # Select 6 random images and 4 random videos
+    random_images = get_random_files(os.path.join(app.static_folder, 'images/Image_dataset'), 5)
+    random_videos = get_random_files(os.path.join(app.static_folder, 'images/Video_dataset'), 5)
+
+    print("\n")
+    print("\n")
+
+    # Print the paths (you can store them in lists if needed)
+    print("Random Images:")
+    for img in random_images:
+        print(img)
+
+    print("\nRandom Videos:")
+    for vid in random_videos:
+        print(vid)
+
+
+    print("\n")
+    print("\n")
+
+
+    # Create the final list alternating between images and videos
+    final_list = []
+    for i in range(5):
+        final_list.append(random_images[i])
+        final_list.append(random_videos[i])
+
+
+    # Print the final list (you can store it in a variable if needed)
+    for item in final_list:
+        print(item)
+
+
+
+
     image_emotion=random_image[:-10]
     image_emotion_type=''
     if image_emotion not in ['amusement', 'awe', 'contentment', 'excitement'] :
@@ -91,10 +140,10 @@ def index():
     # Read the CSV file into a DataFrame
     df = pd.read_csv(csv_file_path)
     df.columns = ['Sr','Question','ans1','ans2','ans3','ans4','ans5']
-    print("\n")
-    print("\n")
+    # print("\n")
+    # print("\n")
     random_row = df.sample(n=1)
-    print(random_row)
+    # print(random_row)
     question = random_row['Question'].values[0]
     return render_template('index.html', question=question, randomImage=random_image, imageEmotionType=image_emotion_type)
 
@@ -111,8 +160,8 @@ def submit():
         computerOpSkill = request.form['computerOpSkill']
         initialEmotion = request.form['initialEmotion']
 
-    print("age : ", age)
-    print("userId : ", userId)
+    # print("age : ", age)
+    # print("userId : ", userId)
 
     response = request.form['response']
     responses.append(response)
@@ -132,14 +181,14 @@ def submit():
     # Get mouse tracking data
     mouse_data = request.form['mouse_data']
 
-    print("\n")
+    # print("\n")
 
-    print("mouse data")
-    print(mouse_data)
+    # print("mouse data")
+    # print(mouse_data)
     
-    print("\n")
-    print("response")
-    print(response)
+    # print("\n")
+    # print("response")
+    # print(response)
 
     # Get the label from the form
     label = request.form['label']
