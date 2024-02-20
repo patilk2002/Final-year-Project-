@@ -190,7 +190,7 @@
         {% if randomImage %}
             <img src="{{ url_for('static', filename='images/' + randomImage) }}" alt="Random Image" class="flask-image">
             <br>
-            <button class="button{{imageEmotionType}}" onclick="showQuestion()" style="width: 150px;">Next</button> <!-- Button to show the question form -->
+            <button disabled id="next-button" class="button{{imageEmotionType}}" onclick="showQuestion()" style="width: 150px;">Wait [10]</button> <!-- Button to show the question form -->
         {% else %}
             <p>No images found.</p>
         {% endif %}
@@ -329,8 +329,24 @@
         function getInitialEmotion(emotion) {
             console.log(emotion);
             document.getElementById('initial-emotion-input').value = emotion;
+
             document.getElementById('intialEmotionCard').style.display = 'none';
             document.getElementById('imageSection').style.display = 'block';
+
+            var button = document.getElementById('next-button');
+            var time = 10;
+            var timer = setInterval(function() {
+                if (time > 0) {
+                    time--;
+                    button.disabled = true;
+                    button.innerHTML = 'Wait [' + time + ']';
+                    console.log(time);
+                }
+                if (time === 0) {
+                    button.disabled = false;
+                    button.innerHTML = 'Next';
+                }
+            }, 1000);
         }
 
         // Function to simulate mouse movement to the center of the screen
@@ -367,6 +383,20 @@
             else {
                 document.getElementById('infoForm').style.display = 'none';
                 document.getElementById('imageSection').style.display = 'block';
+
+                var button = document.getElementById('next-button');
+                var time = 5;
+                var timer = setInterval(function() {
+                    if (time > 0) {
+                        time--;
+                        button.disabled = true;
+                        button.innerHTML = 'Wait [' + time + ']';
+                    }
+                    if (time === 0) {
+                        button.disabled = false;
+                        button.innerHTML = 'Next';
+                    }
+                }, 1000);
             }
 
             // Initialize mouse tracking array
