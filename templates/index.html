@@ -65,7 +65,7 @@
         text-align: justify;
     }
 
-        .footer {
+    .footer {
             background-color: #333;
             color: #fff;
             text-align: center;
@@ -75,7 +75,7 @@
             width: 100%;
         }
 
-            /* Alert styling */
+    /* Alert styling */
             .alert {
                         position:fixed;
                         bottom: 90px;
@@ -104,6 +104,39 @@
                     .alert-danger {
                         background-color: #FF5722;
                     }
+
+    .Inst-card{
+        margin-top: 40px; /* Adjusted margin-top to accommodate the fixed header */
+        width: 60%;
+        margin: 0 auto;
+        padding: 20px;
+        box-sizing: border-box;
+        border-radius: 8px;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        animation: fadeIn 1s ease-in-out;
+        overflow-x: hidden;
+        overflow-y: auto;
+        text-align: justify;
+
+    /* background-color: #f4f4f4;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
+    margin: 20px auto; */
+    /* margin-top: 20px; */
+    max-width: 900px;
+    overflow-y: auto; /* Enable vertical scroll */
+    max-height: 550px; 
+    /* Set a fixed height */
+    }
+
+
+    /* instruction page styling  */
+    /* .page-column {
+    width: calc(20% - 20px); /* Adjust width as needed */
+
+    
     </style>
 
 </head>
@@ -116,45 +149,46 @@
      <!-- Alert container -->
      <div id="alertContainer" class="alert"></div>
 
-    <div id="instructions-card" class="card1" style="display: block;">
+     <div id="instructions-card" class="Inst-card" style="display: flex; flex-direction: row; justify-content: space-between;">
+        <h1 style="text-align: center; color: #333;">Survey Form Instructions</h1>
+
         <p>
             Welcome to our Data Collection Survey, designed to gather essential information for building a predictive model for human emotions based on mouse tracking data, response time, and other factors. Throughout the survey, you'll watch images and videos designed to induce emotions, followed by answering questions. Your honest responses and mouse movements will be recorded for our research analysis. Thank you for joining us on this fascinating journey!
         </p>
-        <h1 style="text-align: center; color: #333;">Survey Form Instructions</h1>
-        <p>
-            Page 1: User Information<br>
-            1.1 Please provide the following information accurately:<br>
-            Age<br>
-            Gender<br>
-            Occupation<br>
-            Average computer use<br>
-            If you are uncomfortable providing accurate information, please refrain from proceeding further.<br>
 
-            Page 2: Initial Emotion Check<br>
-            2.1 On this page, please answer the question: "How are you feeling currently?". Here we will display 8 emotions and you have to select one.<br>
-            <br>
-            Page 3: Stimulus Presentation<br>
+        <div class="page-column">
+            <h3>Page 1</h3>
+            <p><b>User Information</b></p>
+            1.1 Please provide the following information accurately: (Age , Gender, Occupation ,Average computer use)
+        </div>
+        <div class="page-column">
+            <h3>Page 2</h3>
+            <p><b>Initial Emotion Check</b></p>
+                2.1 On this page, please answer the question: "How are you feeling currently?". Here we will display 8 emotions and you have to select one.
+        </div>
+        <div class="page-column">
+            <h3>Page 3</h3>
+            <p><b>Stimulus Presentation</b></p>
             3.1 You will now be presented with an image or video to stimulate emotion.<br>
-            3.2 Carefully watch the image or video. The "Next" button will be activated after 10 seconds.<br>
-            3.3 Click the "Next" button to proceed to the survey question.<br>
-            <br>
-            Page 4: Survey Questions<br>
-            4.1 Answer the yes/no question based on the emotion induced by the image or video.<br>
-            4.2 You have 1 minute to answer the question. There are no right or wrong answers; provide your honest response.<br>
-            4.3 Your mouse movements will be recorded during this section for experimental purposes.<br>
-            <br>
-            Page 5: Post-Stimulus Emotion Check<br>
-            5.1 Answer the question: "How are you feeling after watching the image?". This question will be displayed after answering the yes/no type question. Here also we will display 8 emotions and you have to select one.<br>
-            <br>
-            Likewise, you have to answer 10 questions. The survey will repeat the process with different stimuli. Your responses and mouse movements will be recorded for our experimental analysis.<br>
-            <br>
-            Take your time, there's no rush.<br>
-            Be honest and genuine in your responses.<br>
-            <br>
-            Thank you for participating in our experiment! Your valuable input contributes to our research on predicting human emotions based on mouse movements and response time.<br>
-        </p>
-        <button onclick="showInfoForm()">Start Servey</button>
+            3.2 Carefully watch the image or video. The "Next" button will be activated after 10 seconds.
+        </div>
+        <div class="page-column">
+            <h3>Page 4</h3>
+            <p><b>Survey Questions</b></p>
+            4.1 Answer the yes/no question based on the emotion induced by the image or video.
+
+        </div>
+        <div class="page-column">
+            <h3>Page 5</h3>
+            <p><b>Post-Stimulus Emotion Check</b></p>
+            5.1 Answer the question: "How are you feeling after watching the image?". This question will be displayed after answering the yes/no type question. Here also we will display 8 emotions and you have to select one.<br><br>
     </div>
+
+        <button onclick="showInfoForm()">Start Servey</button>
+
+
+    </div>
+
 
     <div id="infoForm" class="card" style="display: none;">
         <h1 style="text-align: center;">
