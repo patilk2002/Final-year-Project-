@@ -85,7 +85,7 @@ def write_mouse_tracking_to_csv(userId, initialEmotion, age, gender, occupation,
     csv_file_path = 'mouse_tracking_final.csv'
 
     # Field names (header)
-    header = ['User_ID', 'Initial_Emotion', 'Age', 'Gender', 'Occupation', 'Computer_Operating_Skill', 'Label', 'Response', 'Response_Time', 'Current_Emotion', 'Mouse_Data']
+    header = ['User_ID', 'Initial_Emotion', 'Age', 'Gender', 'Occupation', 'Computer_Operating_Skill', 'Label', 'Response', 'Response_Time', 'Current_Emotion', 'Mouse_Data', 'Mouse_Clicks', 'Mouse_Clicks_List', 'Mouse_Downtime_List']
 
     # Check if the file already exists and is not empty
     file_exists = os.path.exists(csv_file_path) and os.path.getsize(csv_file_path) > 0
