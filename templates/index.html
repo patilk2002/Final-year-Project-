@@ -116,43 +116,45 @@
      <!-- Alert container -->
      <div id="alertContainer" class="alert"></div>
 
-     <div id="instructions-card" class="card1" style="display: flex; flex-direction: row; justify-content: space-between;">
-        <div class="page-column">
-            <h1>Page 1</h1>
-            <p>User Information</p>
-            <p>1.1 Please provide the following information accurately:</p>
-            <p>Age</p>
-            <p>Gender</p>
-            <p>Occupation</p>
-            <p>Average computer use</p>
-            <p>If you are uncomfortable providing accurate information, please refrain from proceeding further.</p>
-        </div>
-        <div class="page-column">
-            <h1>Page 2</h1>
-            <p>Initial Emotion Check</p>
-            <p>2.1 On this page, please answer the question: "How are you feeling currently?". Here we will display 8 emotions and you have to select one.</p>
-        </div>
-        <div class="page-column">
-            <h1>Page 3</h1>
-            <p>Stimulus Presentation</p>
-            <p>3.1 You will now be presented with an image or video to stimulate emotion.</p>
-            <p>3.2 Carefully watch the image or video. The "Next" button will be activated after 10 seconds.</p>
-            <p>3.3 Click the "Next" button to proceed to the survey question.</p>
-        </div>
-        <div class="page-column">
-            <h1>Page 4</h1>
-            <p>Survey Questions</p>
-            <p>4.1 Answer the yes/no question based on the emotion induced by the image or video.</p>
-            <p>4.2 You have 1 minute to answer the question. There are no right or wrong answers; provide your honest response.</p>
-            <p>4.3 Your mouse movements will be recorded during this section for experimental purposes.</p>
-        </div>
-        <div class="page-column">
-            <h1>Page 5</h1>
-            <p>Post-Stimulus Emotion Check</p>
-            <p>5.1 Answer the question: "How are you feeling after watching the image?". This question will be displayed after answering the yes/no type question. Here also we will display 8 emotions and you have to select one.</p>
-        </div>
-    </div>
+    <div id="instructions-card" class="card1" style="display: block;">
+        <p>
+            Welcome to our Data Collection Survey, designed to gather essential information for building a predictive model for human emotions based on mouse tracking data, response time, and other factors. Throughout the survey, you'll watch images and videos designed to induce emotions, followed by answering questions. Your honest responses and mouse movements will be recorded for our research analysis. Thank you for joining us on this fascinating journey!
+        </p>
+        <h1 style="text-align: center; color: #333;">Survey Form Instructions</h1>
+        <p>
+            Page 1: User Information<br>
+            1.1 Please provide the following information accurately:<br>
+            Age<br>
+            Gender<br>
+            Occupation<br>
+            Average computer use<br>
+            If you are uncomfortable providing accurate information, please refrain from proceeding further.<br>
 
+            Page 2: Initial Emotion Check<br>
+            2.1 On this page, please answer the question: "How are you feeling currently?". Here we will display 8 emotions and you have to select one.<br>
+            <br>
+            Page 3: Stimulus Presentation<br>
+            3.1 You will now be presented with an image or video to stimulate emotion.<br>
+            3.2 Carefully watch the image or video. The "Next" button will be activated after 10 seconds.<br>
+            3.3 Click the "Next" button to proceed to the survey question.<br>
+            <br>
+            Page 4: Survey Questions<br>
+            4.1 Answer the yes/no question based on the emotion induced by the image or video.<br>
+            4.2 You have 1 minute to answer the question. There are no right or wrong answers; provide your honest response.<br>
+            4.3 Your mouse movements will be recorded during this section for experimental purposes.<br>
+            <br>
+            Page 5: Post-Stimulus Emotion Check<br>
+            5.1 Answer the question: "How are you feeling after watching the image?". This question will be displayed after answering the yes/no type question. Here also we will display 8 emotions and you have to select one.<br>
+            <br>
+            Likewise, you have to answer 10 questions. The survey will repeat the process with different stimuli. Your responses and mouse movements will be recorded for our experimental analysis.<br>
+            <br>
+            Take your time, there's no rush.<br>
+            Be honest and genuine in your responses.<br>
+            <br>
+            Thank you for participating in our experiment! Your valuable input contributes to our research on predicting human emotions based on mouse movements and response time.<br>
+        </p>
+        <button onclick="showInfoForm()">Start Servey</button>
+    </div>
 
     <div id="infoForm" class="card" style="display: none;">
         <h1 style="text-align: center;">
