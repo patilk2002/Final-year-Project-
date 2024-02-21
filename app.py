@@ -35,6 +35,7 @@ random_images = []
 random_videos = []
 
 
+
 # Force Matplotlib to use non-interactive backend
 matplotlib.use('Agg')
 
@@ -78,6 +79,29 @@ def write_mouse_tracking_to_csv(userId, initialEmotion, age, gender, occupation,
         writer = csv.writer(file)
         # Add the label as the first element in the row
         writer.writerow([userId, initialEmotion, age, gender, occupation, computerOpSkill, label, response, responseTime, currentEmotion,mouse_data_list])
+
+
+    # File path of the CSV file
+    csv_file_path = 'mouse_tracking_final.csv'
+
+    # Field names (header)
+    header = ['User_ID', 'Initial_Emotion', 'Age', 'Gender', 'Occupation', 'Computer_Operating_Skill', 'Label', 'Response', 'Response_Time', 'Current_Emotion', 'Mouse_Data']
+
+    # Check if the file already exists and is not empty
+    file_exists = os.path.exists(csv_file_path) and os.path.getsize(csv_file_path) > 0
+
+    # Writing data to the CSV file with a header if it doesn't already exist
+    with open(csv_file_path, mode='a', newline='', encoding='utf-8-sig') as file:
+        writer = csv.writer(file)
+
+        # Write the header only if the file is empty
+        if not file_exists:
+            writer.writerow(header)
+            
+        # Add the label as the first element in the row
+        writer.writerow([userId, initialEmotion, age, gender, occupation, computerOpSkill, label, response, responseTime, currentEmotion,mouse_data_list])
+
+
 
 
 
