@@ -41,7 +41,7 @@ matplotlib.use('Agg')
 
 def plot_mouse_tracking(label, mouse_data_list):
     cor_x = [point["x"] for point in mouse_data_list]
-    cor_y = [point["y"] for point in mouse_data_list]
+    cor_y = [700-point["y"] for point in mouse_data_list]
 
     timestamp = datetime.now().strftime('%Y%m%d%H%M%S%f')
 
@@ -65,7 +65,7 @@ def write_mouse_tracking_to_csv(userId, initialEmotion, age, gender, occupation,
     plot_thread.start()
 
     cor_x = [point["x"] for point in mouse_data_list]
-    cor_y = [point["y"] for point in mouse_data_list]
+    cor_y = [700-point["y"] for point in mouse_data_list]
 
     for i in mouse_data_list:
         cor_x.append(i["x"])
@@ -132,7 +132,7 @@ def index():
 
     global count
     count = len(responses)
-    random_image = final_list[count]
+    random_image = final_list[count-1]
     print(count)
     print(random_image)
     
