@@ -376,13 +376,11 @@
                 var x = event.clientX;
                 var y = event.clientY;
                 mouseClicks.push({ x: x, y: y });
-                console.log(mouseClicks);
             })
 
             document.addEventListener('mouseup', () => {
                 const downtime = Date.now() - clickStartTime;
                 mouseDowntimes.push(downtime);
-                console.log(mouseDowntimes);
             });
         }
 
@@ -437,7 +435,6 @@
         }
 
         function getInitialEmotion(emotion) {
-            console.log(emotion);
             document.getElementById('initial-emotion-input').value = emotion;
 
             document.getElementById('intialEmotionCard').style.display = 'none';
@@ -450,7 +447,6 @@
                     time--;
                     button.disabled = true;
                     button.innerHTML = 'Wait [' + time + ']';
-                    console.log(time);
                 }
                 if (time === 0) {
                     button.disabled = false;
@@ -481,7 +477,6 @@
 
         document.addEventListener("DOMContentLoaded", function () {
             document.querySelector('.card').classList.add('fade-in');
-            console.log("test");
 
             //code to display form based on setvalue local storage value 
             if (!localStorage.getItem('visitCount')) {
@@ -537,7 +532,6 @@
         function submitResponse(response) {
             getEndTime();
             responseTime = calculateDifference();
-            console.log(responseTime);
             document.getElementById('response-time-input').value = responseTime;
             document.getElementById('response-input').value = response;
             document.getElementById('mouse-data-input').value = JSON.stringify(mouseData);
@@ -548,7 +542,6 @@
         }
 
         function getCurrentEmotion(emotion) {
-            console.log(emotion);
             document.getElementById('current-emotion-input').value = emotion;
             document.getElementById('response-form').submit();
         }
