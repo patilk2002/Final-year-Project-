@@ -39,11 +39,9 @@ random_videos = []
 # Force Matplotlib to use non-interactive backend
 matplotlib.use('Agg')
 
-def plot_mouse_tracking(label, mouse_data_list):
+def plot_mouse_tracking(label, mouse_data_list, timestamp):
     cor_x = [point["x"] for point in mouse_data_list]
     cor_y = [700-point["y"] for point in mouse_data_list]
-
-    timestamp = datetime.now().strftime('%Y%m%d%H%M%S%f')
 
     folder_path = os.path.join("static", "graphs", label)
     os.makedirs(folder_path, exist_ok=True)  # Create folder if it doesn't exist
@@ -60,8 +58,9 @@ def plot_mouse_tracking(label, mouse_data_list):
 
 
 def write_mouse_tracking_to_csv(userId, initialEmotion, age, gender, occupation, computerOpSkill, label, response, responseTime, currentEmotion, mouse_data_list, no_of_clicks, mouse_clicks_list, mouse_downtimes_list):
+    timestamp = datetime.now().strftime('%Y%m%d%H%M%S%f')
     # Plotting in a separate thread to avoid Matplotlib warning
-    plot_thread = Thread(target=plot_mouse_tracking, args=(label, mouse_data_list))
+    plot_thread = Thread(target=plot_mouse_tracking, args=(label, mouse_data_list, timestamp))
     plot_thread.start()
 
     cor_x = [point["x"] for point in mouse_data_list]
@@ -70,6 +69,8 @@ def write_mouse_tracking_to_csv(userId, initialEmotion, age, gender, occupation,
     for i in mouse_data_list:
         cor_x.append(i["x"])
         cor_y.append(i["y"])
+
+    graph_name = label+"_"+timestamp+"_graph.png"
 
     with open('mouse_tracking.csv', mode='a', newline='') as file:
         writer = csv.writer(file)
@@ -85,7 +86,7 @@ def write_mouse_tracking_to_csv(userId, initialEmotion, age, gender, occupation,
     csv_file_path = 'mouse_tracking_final.csv'
 
     # Field names (header)
-    header = ['User_ID', 'Initial_Emotion', 'Age', 'Gender', 'Occupation', 'Computer_Operating_Skill', 'Label', 'Response', 'Response_Time', 'Current_Emotion', 'Mouse_Data', 'Mouse_Clicks', 'Mouse_Clicks_List', 'Mouse_Downtime_List']
+    header = ['User_ID', 'Initial_Emotion', 'Age', 'Gender', 'Occupation', 'Computer_Operating_Skill', 'Label', 'Response', 'Response_Time', 'Current_Emotion', 'Mouse_Data', 'Mouse_Clicks', 'Mouse_Clicks_List', 'Mouse_Downtime_List', 'Graph_file']
 
     # Check if the file already exists and is not empty
     file_exists = os.path.exists(csv_file_path) and os.path.getsize(csv_file_path) > 0
@@ -99,7 +100,7 @@ def write_mouse_tracking_to_csv(userId, initialEmotion, age, gender, occupation,
             writer.writerow(header)
             
         # Add the label as the first element in the row
-        writer.writerow([userId, initialEmotion, age, gender, occupation, computerOpSkill, label, response, responseTime, currentEmotion,mouse_data_list])
+        writer.writerow([userId, initialEmotion, age, gender, occupation, computerOpSkill, label, response, responseTime, currentEmotion, mouse_data_list, no_of_clicks, mouse_clicks_list, mouse_downtimes_list, graph_name])
 
 
 
