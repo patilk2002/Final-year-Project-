@@ -1,4 +1,5 @@
 # app.py
+import math
 from flask import Flask, render_template, request, redirect, url_for
 import csv
 import json
@@ -57,7 +58,7 @@ def plot_mouse_tracking(label, mouse_data_list, timestamp):
     plt.close()
 
 
-def write_mouse_tracking_to_csv(userId, initialEmotion, age, gender, occupation, computerOpSkill, label, response, responseTime, currentEmotion, mouse_data_list, no_of_clicks, mouse_clicks_list, mouse_downtimes_list):
+def write_mouse_tracking_to_csv(userId, initialEmotion, age, gender, occupation, computerOpSkill, label, response, responseTime, currentEmotion, mouse_data_list, no_of_clicks, mouse_clicks_list, mouse_downtimes_list, speed, velocity):
     timestamp = datetime.now().strftime('%Y%m%d%H%M%S%f')
     # Plotting in a separate thread to avoid Matplotlib warning
     plot_thread = Thread(target=plot_mouse_tracking, args=(label, mouse_data_list, timestamp))
@@ -86,7 +87,7 @@ def write_mouse_tracking_to_csv(userId, initialEmotion, age, gender, occupation,
     csv_file_path = 'mouse_tracking_final.csv'
 
     # Field names (header)
-    header = ['User_ID', 'Initial_Emotion', 'Age', 'Gender', 'Occupation', 'Computer_Operating_Skill', 'Label', 'Response', 'Response_Time', 'Current_Emotion', 'Mouse_Data', 'Mouse_Clicks', 'Mouse_Clicks_List', 'Mouse_Downtime_List', 'Graph_file']
+    header = ['User_ID', 'Initial_Emotion', 'Age', 'Gender', 'Occupation', 'Computer_Operating_Skill', 'Label', 'Response', 'Response_Time', 'Current_Emotion', 'Mouse_Data', 'Mouse_Clicks', 'Mouse_Clicks_List', 'Mouse_Downtime_List', 'Speed', 'Velocity', 'Graph_file']
 
     # Check if the file already exists and is not empty
     file_exists = os.path.exists(csv_file_path) and os.path.getsize(csv_file_path) > 0
@@ -100,10 +101,12 @@ def write_mouse_tracking_to_csv(userId, initialEmotion, age, gender, occupation,
             writer.writerow(header)
             
         # Add the label as the first element in the row
-        writer.writerow([userId, initialEmotion, age, gender, occupation, computerOpSkill, label, response, responseTime, currentEmotion, mouse_data_list, no_of_clicks, mouse_clicks_list, mouse_downtimes_list, graph_name])
+        writer.writerow([userId, initialEmotion, age, gender, occupation, computerOpSkill, label, response, responseTime, currentEmotion, mouse_data_list, no_of_clicks, mouse_clicks_list, mouse_downtimes_list, speed, velocity, graph_name])
 
 
-
+# Function to calculate Euclidean distance between two points
+def euclidean_distance(point1, point2):
+    return math.sqrt((point2['x'] - point1['x'])**2 + (point2['y'] - point1['y'])**2)
 
 
 @app.route('/')
@@ -153,8 +156,7 @@ def index():
     # Read the CSV file into a DataFrame
     df = pd.read_csv(csv_file_path)
     df.columns = ['Sr','Question','ans1','ans2','ans3','ans4','ans5']
-    # print("\n")
-    # print("\n")
+
     random_row = df.sample(n=1)
     # print(random_row)
     question = random_row['Question'].values[0]
@@ -172,9 +174,6 @@ def submit():
         occupation = request.form['occupation']
         computerOpSkill = request.form['computerOpSkill']
         initialEmotion = request.form['initialEmotion']
-
-    # print("age : ", age)
-    # print("userId : ", userId)
 
     response = request.form['response']
     responses.append(response)
@@ -198,18 +197,6 @@ def submit():
     # Get mouse tracking data
     mouse_data = request.form['mouse_data']
 
-    # print("\n")
-
-    print("mouse downtimes")
-    print(mouse_downtimes)
-    print(no_of_clicks)
-    # print("mouse data")
-    # print(mouse_data)
-    
-    # print("\n")
-    # print("response")
-    # print(response)
-
     # Get the label from the form
     label = request.form['label']
 
@@ -221,10 +208,17 @@ def submit():
     try:
         mouse_clicks_list = json.loads(mouse_clicks)
     except json.JSONDecodeError:
-        mouse_clicks_list = []                       
+        mouse_clicks_list = [] 
+   
+    # Calculate Euclidean distance between consecutive coordinates and sum to get total distance
+    distance = sum(euclidean_distance(mouse_data_list[i], mouse_data_list[i+1]) for i in range(len(mouse_data_list)-1))
+    speed = distance * 1000 / float(responseTime)
+
+    displacement = euclidean_distance(mouse_data_list[0], mouse_data_list[-1])
+    velocity = displacement * 1000 / float(responseTime)
 
     # Add mouse tracking data to CSV file with the label
-    write_mouse_tracking_to_csv(userId, initialEmotion, age, gender, occupation, computerOpSkill, label, response, responseTime, currentEmotion, mouse_data_list, no_of_clicks, mouse_clicks_list, mouse_downtimes_list)
+    write_mouse_tracking_to_csv(userId, initialEmotion, age, gender, occupation, computerOpSkill, label, response, responseTime, currentEmotion, mouse_data_list, no_of_clicks, mouse_clicks_list, mouse_downtimes_list, speed, velocity)
 
     # Move to the next question or show results when all questions are answered
     next_question_index = len(responses)
