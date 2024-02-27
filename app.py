@@ -19,6 +19,10 @@ questions = [
     {'id': 1, 'question': 'Do you like Flask?'},
 ]
 
+stimuli_list = []
+random_images = []
+random_videos = []
+
 userId = ""
 age = ""
 gender = ""
@@ -124,26 +128,29 @@ def index():
         files = [f for f in os.listdir(folder)]
         return sample(files, min(num_files, len(files)))
 
-    # Select 6 random images and 4 random videos
-    random_images = get_random_files(os.path.join(app.static_folder, 'images/Image_dataset'), 5)
-    random_videos = get_random_files(os.path.join(app.static_folder, 'images/Video_dataset'), 5)
+    global stimuli_list, random_videos, random_images
+    if(len(stimuli_list)==0):
+        # Select 6 random images and 4 random videos
+        random_images = get_random_files(os.path.join(app.static_folder, 'images/Image_dataset'), 5)
+        random_videos = get_random_files(os.path.join(app.static_folder, 'images/Video_dataset'), 5)
+        for i in range(5):
+            stimuli_list.append(random_images[i])
+            stimuli_list.append(random_videos[i])
 
-    # Create the final list alternating between images and videos
-    final_list = []
-    for i in range(5):
-        final_list.append(random_images[i])
-        final_list.append(random_videos[i])
+    print("Stimuli List ----->")
+    print(stimuli_list)
 
     global count
     count = len(responses)
-    random_image = final_list[count-1]
+    # random_image = final_list[count-1]
+    random_stimulus = stimuli_list[count]
     print(count)
-    print(random_image)
+    # print(random_image)
     
     
     # count+=1
 
-    image_emotion=random_image[:-10]
+    image_emotion=random_stimulus[:-10]
     image_emotion_type=''
     if image_emotion not in ['amusement', 'awe', 'contentment', 'excitement'] :
         image_emotion_type = '-negative'
@@ -160,7 +167,7 @@ def index():
     random_row = df.sample(n=1)
     # print(random_row)
     question = random_row['Question'].values[0]
-    return render_template('index.html', question=question, randomImage=random_image, imageEmotionType=image_emotion_type)
+    return render_template('index.html', question=question, randomImage=random_stimulus, imageEmotionType=image_emotion_type)
 
 
 
