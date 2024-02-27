@@ -128,11 +128,44 @@ def index():
         files = [f for f in os.listdir(folder)]
         return sample(files, min(num_files, len(files)))
 
+
+
+    # Function to get a list of random files from a folder that start with a specific prefix
+    def get_random_files_with_prefix(folder, prefix, num_files):
+        files = [f for f in os.listdir(folder) if f.startswith(prefix)]
+        return sample(files, min(num_files, len(files)))
+
+
+
+
+
+
+
+
+
+
     global stimuli_list, random_videos, random_images
     if(len(stimuli_list)==0):
         # Select 6 random images and 4 random videos
-        random_images = get_random_files(os.path.join(app.static_folder, 'images/Image_dataset'), 5)
-        random_videos = get_random_files(os.path.join(app.static_folder, 'images/Video_dataset'), 5)
+        # random_images = get_random_files(os.path.join(app.static_folder, 'images/Image_dataset'), 5)
+        # random_videos = get_random_files(os.path.join(app.static_folder, 'images/Video_dataset'), 5)
+        
+
+        random_images = get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), 'amusement', 1)
+        random_images.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), 'anger', 1))
+        random_images.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), 'contentment', 1))
+        random_images.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), 'disgust', 1))
+
+        random_images.append(get_random_files(os.path.join(app.static_folder, 'images/Image_dataset'), 1))
+
+        random_videos = get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),'excitement', 1)
+        random_videos.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),'Fear', 1))
+        random_videos.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),'awe', 1))
+        random_videos.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),'sadness', 1))
+
+        random_videos.append(get_random_files(os.path.join(app.static_folder, 'images/Video_dataset'), 1))
+
+
         for i in range(5):
             stimuli_list.append(random_images[i])
             stimuli_list.append(random_videos[i])
