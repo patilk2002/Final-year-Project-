@@ -305,6 +305,7 @@
                 <input type="hidden" name="mouse_data" id="mouse-data-input">
                 <input type="hidden" name="mouse_clicks" id="mouse-clicks-input">
                 <input type="hidden" name="mouse_downtimes" id="mouse-downtimes-input">
+                <input type="hidden" name="click_moments" id="click-moments-input">
                 <input type="hidden" name="responseTime" id="response-time-input">
                 <input type="hidden" name="currentEmotion" id="current-emotion-input">
                 <!-- Add a new input field for the label -->
@@ -379,8 +380,11 @@
             })
 
             document.addEventListener('mouseup', () => {
-                const downtime = Date.now() - clickStartTime;
+                const clickUpMoment = Date.now();
+                const downtime = clickUpMoment - clickStartTime;
                 mouseDowntimes.push(downtime);
+                const clickMoment = clickUpMoment - startTime;
+                clickMoments.push(clickMoment);
             });
         }
 
@@ -473,6 +477,7 @@
         var mouseData = [];
         var mouseClicks = [];
         var mouseDowntimes = [];
+        var clickMoments = [];
         let clickStartTime = 0; 
 
         document.addEventListener("DOMContentLoaded", function () {
@@ -523,6 +528,7 @@
                 document.getElementById('mouse-data-input').value = JSON.stringify(mouseData);
                 document.getElementById('mouse-clicks-input').value = JSON.stringify(mouseClicks);
                 document.getElementById('mouse-downtimes-input').value = JSON.stringify(mouseDowntimes);
+                document.getElementById('click-moments-input').value = JSON.stringify(clickMoments);
 
                // console.log('Mouse Data:', JSON.stringify(mouseData)); // Log mouse data for debugging
                 //console.log("test");
@@ -537,6 +543,7 @@
             document.getElementById('mouse-data-input').value = JSON.stringify(mouseData);
             document.getElementById('mouse-clicks-input').value = JSON.stringify(mouseClicks);
             document.getElementById('mouse-downtimes-input').value = JSON.stringify(mouseDowntimes);
+            document.getElementById('click-moments-input').value = JSON.stringify(clickMoments);
             document.getElementById('questionSection').style.display = 'none';
             document.getElementById('currentEmotionCard').style.display = 'block';
         }
