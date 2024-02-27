@@ -310,6 +310,7 @@
                 <input type="hidden" name="currentEmotion" id="current-emotion-input">
                 <!-- Add a new input field for the label -->
                 <input type="hidden" name="label" id="label-input" value="{{ randomImage.split('.')[0][:-6] if randomImage else '' }}">
+                <input type="hidden" name="stimulus" id="stimulus" value="{{ randomImage }}">
             </form>
             
                 <button class="response-button{{ imageEmotionType }} response-button-left"  onclick="submitResponse('Yes')">Yes</button>

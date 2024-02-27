@@ -62,7 +62,7 @@ def plot_mouse_tracking(label, mouse_data_list, timestamp):
     plt.close()
 
 
-def write_mouse_tracking_to_csv(userId, initialEmotion, age, gender, occupation, computerOpSkill, label, response, responseTime, currentEmotion, mouse_data_list, no_of_clicks, mouse_clicks_list, mouse_downtimes_list, click_moments_list, speed, velocity):
+def write_mouse_tracking_to_csv(userId, initialEmotion, age, gender, occupation, computerOpSkill, label, stimulus, response, responseTime, currentEmotion, mouse_data_list, no_of_clicks, mouse_clicks_list, mouse_downtimes_list, click_moments_list, speed, velocity):
     timestamp = datetime.now().strftime('%Y%m%d%H%M%S%f')
     # Plotting in a separate thread to avoid Matplotlib warning
     plot_thread = Thread(target=plot_mouse_tracking, args=(label, mouse_data_list, timestamp))
@@ -91,7 +91,7 @@ def write_mouse_tracking_to_csv(userId, initialEmotion, age, gender, occupation,
     csv_file_path = 'mouse_tracking_final.csv'
 
     # Field names (header)
-    header = ['User_ID', 'Initial_Emotion', 'Age', 'Gender', 'Occupation', 'Computer_Operating_Skill', 'Label', 'Response', 'Response_Time', 'Current_Emotion', 'Mouse_Data', 'Mouse_Clicks', 'Mouse_Clicks_List', 'Mouse_Downtime_List', 'Click_Moments_List', 'Speed', 'Velocity', 'Graph_file']
+    header = ['User_ID', 'Initial_Emotion', 'Age', 'Gender', 'Occupation', 'Computer_Operating_Skill', 'Label', 'Stimulus', 'Response', 'Response_Time', 'Current_Emotion', 'Mouse_Data', 'Mouse_Clicks', 'Mouse_Clicks_List', 'Mouse_Downtime_List', 'Click_Moments_List', 'Speed', 'Velocity', 'Graph_file']
 
     # Check if the file already exists and is not empty
     file_exists = os.path.exists(csv_file_path) and os.path.getsize(csv_file_path) > 0
@@ -105,7 +105,7 @@ def write_mouse_tracking_to_csv(userId, initialEmotion, age, gender, occupation,
             writer.writerow(header)
             
         # Add the label as the first element in the row
-        writer.writerow([userId, initialEmotion, age, gender, occupation, computerOpSkill, label, response, responseTime, currentEmotion, mouse_data_list, no_of_clicks, mouse_clicks_list, mouse_downtimes_list, click_moments_list, speed, velocity, graph_name])
+        writer.writerow([userId, initialEmotion, age, gender, occupation, computerOpSkill, label, stimulus, response, responseTime, currentEmotion, mouse_data_list, no_of_clicks, mouse_clicks_list, mouse_downtimes_list, click_moments_list, speed, velocity, graph_name])
 
 
 # Function to calculate Euclidean distance between two points
@@ -186,6 +186,7 @@ def submit():
     responses.append(response)
 
     label = request.form['label']
+    stimulus = request.form['stimulus']
     labels.append(label)
 
     # Get mouse tracking data
@@ -227,7 +228,7 @@ def submit():
     velocity = displacement * 1000 / float(responseTime)
 
     # Add mouse tracking data to CSV file with the label
-    write_mouse_tracking_to_csv(userId, initialEmotion, age, gender, occupation, computerOpSkill, label, response, responseTime, currentEmotion, mouse_data_list, no_of_clicks, mouse_clicks_list, mouse_downtimes_list, click_moments_list, speed, velocity)
+    write_mouse_tracking_to_csv(userId, initialEmotion, age, gender, occupation, computerOpSkill, label, stimulus, response, responseTime, currentEmotion, mouse_data_list, no_of_clicks, mouse_clicks_list, mouse_downtimes_list, click_moments_list, speed, velocity)
 
     # Move to the next question or show results when all questions are answered
     next_question_index = len(responses)
