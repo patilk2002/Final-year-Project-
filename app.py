@@ -1,5 +1,6 @@
 # app.py
 import math
+import random
 from flask import Flask, render_template, request, redirect, url_for
 import csv
 import json
@@ -23,6 +24,9 @@ stimuli_list = []
 random_images = []
 random_videos = []
 
+user_number = 0
+emotions_list = ['amusement','anger','contentment','disgust','excitement','fear','awe','sadness']
+
 userId = ""
 age = ""
 gender = ""
@@ -35,11 +39,6 @@ labels = []
 image_name = ""
 responseTimes = []
 currentEmotions = []
-
-random_images = []
-random_videos = []
-
-
 
 # Force Matplotlib to use non-interactive backend
 matplotlib.use('Agg')
@@ -115,6 +114,24 @@ def euclidean_distance(point1, point2):
 
 @app.route('/')
 def index():
+    global user_number, responses, stimuli_list, random_videos, random_images, userId, age, gender, occupation, computerOpSkill, initialEmotion,labels, image_name, responseTimes, currentEmotions
+    if(len(responses)>=8):
+        user_number+=1
+        stimuli_list=[]
+        random_images=[]
+        random_videos=[]
+        userId = ""
+        age = ""
+        gender = ""
+        occupation = ""
+        computerOpSkill = ""
+        initialEmotion = ""
+        responses = []
+        labels = []
+        image_name = ""
+        responseTimes = []
+        currentEmotions = []
+        
     # images = [image for image in os.listdir(os.path.join(app.static_folder, 'images')) if
     #           image.endswith(('.png', '.jpg', '.jpeg'))]
     # random_image = choice(images) if images else None
@@ -128,52 +145,48 @@ def index():
         files = [f for f in os.listdir(folder)]
         return sample(files, min(num_files, len(files)))
 
-
-
     # Function to get a list of random files from a folder that start with a specific prefix
     def get_random_files_with_prefix(folder, prefix, num_files):
         files = [f for f in os.listdir(folder) if f.startswith(prefix)]
         return sample(files, min(num_files, len(files)))
 
-
-
-
-
-
-
-
-
-
-    global stimuli_list, random_videos, random_images
     if(len(stimuli_list)==0):
         # Select 6 random images and 4 random videos
         # random_images = get_random_files(os.path.join(app.static_folder, 'images/Image_dataset'), 5)
         # random_videos = get_random_files(os.path.join(app.static_folder, 'images/Video_dataset'), 5)
-        
 
-        random_images = get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), 'amusement', 1)
-        random_images.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), 'anger', 1)[0])
-        random_images.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), 'contentment', 1)[0])
-        random_images.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), 'disgust', 1)[0])
+        if(user_number%2):
+            # pattern 1
+            random_images = get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), 'amusement', 1)
+            random_images.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), 'anger', 1)[0])
+            random_images.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), 'contentment', 1)[0])
+            random_images.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), 'disgust', 1)[0])
 
-        random_images.append(get_random_files(os.path.join(app.static_folder, 'images/Image_dataset'), 1)[0])
+            random_videos = get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),'excitement', 1)
+            random_videos.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),'fear', 1)[0])
+            random_videos.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),'awe', 1)[0])
+            random_videos.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),'sadness', 1)[0])
+        else:
+            # pattern 2
+            random_images = get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), 'excitement', 1)
+            random_images.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), 'fear', 1)[0])
+            random_images.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), 'awe', 1)[0])
+            random_images.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), 'sadness', 1)[0])
 
-        random_videos = get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),'excitement', 1)
-        random_videos.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),'Fear', 1)[0])
-        random_videos.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),'awe', 1)[0])
-        random_videos.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),'Sadness', 1)[0])
+            random_videos = get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),'amusement', 1)
+            random_videos.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),'anger', 1)[0])
+            random_videos.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),'contentment', 1)[0])
+            random_videos.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),'disgust', 1)[0])
 
-        random_videos.append(get_random_files(os.path.join(app.static_folder, 'images/Video_dataset'), 1)[0])
-
-
-        for i in range(5):
+        for i in range(4):
             stimuli_list.append(random_images[i])
             stimuli_list.append(random_videos[i])
+        
+        random.shuffle(stimuli_list)
 
     print("Stimuli List ----->")
     print(stimuli_list)
 
-    global count
     count = len(responses)
     # random_image = final_list[count-1]
     random_stimulus = stimuli_list[count]

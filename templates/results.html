@@ -39,8 +39,8 @@
         let visitCount = parseInt(localStorage.getItem('visitCount')) || 0;
         visitCount++;
 
-        // Check if visitCount exceeds 10
-        if (visitCount >= 10) {
+        // Check if visitCount exceeds 8
+        if (visitCount >= 8) {
             // Remove visitCount from localStorage
             localStorage.setItem('alertType', 'endsur')
             localStorage.removeItem('visitCount');
