@@ -152,18 +152,18 @@ def index():
         
 
         random_images = get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), 'amusement', 1)
-        random_images.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), 'anger', 1))
-        random_images.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), 'contentment', 1))
-        random_images.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), 'disgust', 1))
+        random_images.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), 'anger', 1)[0])
+        random_images.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), 'contentment', 1)[0])
+        random_images.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), 'disgust', 1)[0])
 
-        random_images.append(get_random_files(os.path.join(app.static_folder, 'images/Image_dataset'), 1))
+        random_images.append(get_random_files(os.path.join(app.static_folder, 'images/Image_dataset'), 1)[0])
 
         random_videos = get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),'excitement', 1)
-        random_videos.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),'Fear', 1))
-        random_videos.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),'awe', 1))
-        random_videos.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),'sadness', 1))
+        random_videos.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),'Fear', 1)[0])
+        random_videos.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),'awe', 1)[0])
+        random_videos.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),'Sadness', 1)[0])
 
-        random_videos.append(get_random_files(os.path.join(app.static_folder, 'images/Video_dataset'), 1))
+        random_videos.append(get_random_files(os.path.join(app.static_folder, 'images/Video_dataset'), 1)[0])
 
 
         for i in range(5):
