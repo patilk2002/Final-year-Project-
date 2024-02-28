@@ -191,11 +191,11 @@ def index():
     # question= "Do you think this image representing "+random_image[:-10]+" ?"
     # debugging 
     # Specify the file path
-    csv_file_path = 'static/questions/MMPI_questions.csv'
+    csv_file_path = 'static/questions/survey_questions_fyp.csv'
 
     # Read the CSV file into a DataFrame
     df = pd.read_csv(csv_file_path)
-    df.columns = ['Sr','Question','ans1','ans2','ans3','ans4','ans5']
+    df.columns = ['Sr','Question']
 
     random_row = df.sample(n=1)
     # print(random_row)
