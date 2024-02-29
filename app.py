@@ -131,6 +131,7 @@ def index():
         image_name = ""
         responseTimes = []
         currentEmotions = []
+        emotions=[]
         
     # images = [image for image in os.listdir(os.path.join(app.static_folder, 'images')) if
     #           image.endswith(('.png', '.jpg', '.jpeg'))]
@@ -150,33 +151,57 @@ def index():
         files = [f for f in os.listdir(folder) if f.startswith(prefix)]
         return sample(files, min(num_files, len(files)))
 
+    
+    emotion=['amusement', 'anger' ,'contentment', 'disgust', 'excitement', 'fear', 'awe', 'sadness']
+
+
     if(len(stimuli_list)==0):
         # Select 6 random images and 4 random videos
-        # random_images = get_random_files(os.path.join(app.static_folder, 'images/Image_dataset'), 5)
+
+        random.shuffle(emotion)
+
+
+        random_images = get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), emotion[0], 1)
+        random_images.append (get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), emotion[1], 1)[0])
+        random_images.append (get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), emotion[2], 1)[0])
+        random_images.append (get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), emotion[3], 1)[0])
+
+
+
+
+        random_videos = get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),emotion[4], 1)
+        random_videos.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),emotion[5], 1)[0])
+        random_videos.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),emotion[6], 1)[0])
+        random_videos.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),emotion[7], 1)[0])
+
+
+
+
+
         # random_videos = get_random_files(os.path.join(app.static_folder, 'images/Video_dataset'), 5)
 
-        if(user_number%2):
-            # pattern 1
-            random_images = get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), 'amusement', 1)
-            random_images.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), 'anger', 1)[0])
-            random_images.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), 'contentment', 1)[0])
-            random_images.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), 'disgust', 1)[0])
+        # if(user_number%2):
+        #     # pattern 1
+        #     random_images = get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), 'amusement', 1)
+        #     random_images.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), 'anger', 1)[0])
+        #     random_images.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), 'contentment', 1)[0])
+        #     random_images.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), 'disgust', 1)[0])
 
-            random_videos = get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),'excitement', 1)
-            random_videos.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),'fear', 1)[0])
-            random_videos.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),'awe', 1)[0])
-            random_videos.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),'sadness', 1)[0])
-        else:
-            # pattern 2
-            random_images = get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), 'excitement', 1)
-            random_images.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), 'fear', 1)[0])
-            random_images.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), 'awe', 1)[0])
-            random_images.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), 'sadness', 1)[0])
+        #     random_videos = get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),'excitement', 1)
+        #     random_videos.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),'fear', 1)[0])
+        #     random_videos.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),'awe', 1)[0])
+        #     random_videos.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),'sadness', 1)[0])
+        # else:
+        #     # pattern 2
+        #     random_images = get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), 'excitement', 1)
+        #     random_images.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), 'fear', 1)[0])
+        #     random_images.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), 'awe', 1)[0])
+        #     random_images.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), 'sadness', 1)[0])
 
-            random_videos = get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),'amusement', 1)
-            random_videos.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),'anger', 1)[0])
-            random_videos.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),'contentment', 1)[0])
-            random_videos.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),'disgust', 1)[0])
+        #     random_videos = get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),'amusement', 1)
+        #     random_videos.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),'anger', 1)[0])
+        #     random_videos.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),'contentment', 1)[0])
+        #     random_videos.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),'disgust', 1)[0])
 
         for i in range(4):
             stimuli_list.append(random_images[i])
