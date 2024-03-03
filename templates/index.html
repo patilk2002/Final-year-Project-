@@ -264,15 +264,21 @@
 
     <div id="imageSection" class="card{{ imageEmotionType }}" style="text-align:center;display: none;">
         {% if randomImage %}
-            {% if randomImage.endswith('.mp4') or randomImage.endswith('.avi') or randomImage.endswith('.mov') %}
+            {% if randomImage.endswith('.jpg') or randomImage.endswith('.png') or randomImage.endswith('.jpeg') %}
+            <img src="{{ url_for('static', filename='images/Image_dataset/' + randomImage) }}" alt="Random Image" class="flask-image">
+
                 <!-- <video controls class="flask-video">
                     <source src="{{ url_for('static', filename='images/Video_dataset/' + randomImage) }}" type="video/mp4">
                     Your browser does not support the video tag.
                 </video> -->
 
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/8L3QSt6f3dM?si=o0HcV1AN_GjfMyZ2&amp;controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
             {% else %}
-                <img src="{{ url_for('static', filename='images/Image_dataset/' + randomImage) }}" alt="Random Image" class="flask-image">
+                <!-- <img src="{{ url_for('static', filename='images/Image_dataset/' + randomImage) }}" alt="Random Image" class="flask-image"> -->
+
+                <!--    <iframe width="560" height="315" src="https://www.youtube.com/embed/8L3QSt6f3dM?si=o0HcV1AN_GjfMyZ2&amp;controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> -->
+                
+                {{ randomImage | safe }}
+                
             {% endif %}
             <br>
             <button disabled id="next-button" class="button{{imageEmotionType}}" onclick="showQuestion()" style="width: 150px;">Wait [10]</button> <!-- Button to show the question form -->
@@ -311,7 +317,7 @@
                 <input type="hidden" name="responseTime" id="response-time-input">
                 <input type="hidden" name="currentEmotion" id="current-emotion-input">
                 <!-- Add a new input field for the label -->
-                <input type="hidden" name="label" id="label-input" value="{{ randomImage.split('.')[0][:-6] if randomImage else '' }}">
+                <input type="hidden" name="label" id="label-input" value="{{ EmoLabel }}">
                 <input type="hidden" name="stimulus" id="stimulus" value="{{ randomImage }}">
             </form>
             
