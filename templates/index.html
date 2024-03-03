@@ -425,9 +425,10 @@
             document.getElementById('questionSection').style.display = 'block';
            
             document.addEventListener("mousemove", function (event) {
+                currTime = new Date().getTime();
                 var x = event.clientX;
                 var y = event.clientY;
-                mouseData.push({ x: x, y: y });
+                mouseData.push({ x: x, y: y, t: currTime-startTime});
             });
 
             document.addEventListener("mousedown", function (event) {
@@ -510,9 +511,10 @@
             document.getElementById('3questionCard').style.display = 'block';
            
             document.addEventListener("mousemove", function (event) {
+                currTime = new Date().getTime();
                 var x = event.clientX;
                 var y = event.clientY;
-                mouseData.push({ x: x, y: y });
+                mouseData.push({ x: x, y: y, t: currTime-startTime});
             });
 
             document.addEventListener("mousedown", function (event) {
