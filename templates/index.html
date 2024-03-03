@@ -265,10 +265,12 @@
     <div id="imageSection" class="card{{ imageEmotionType }}" style="text-align:center;display: none;">
         {% if randomImage %}
             {% if randomImage.endswith('.mp4') or randomImage.endswith('.avi') or randomImage.endswith('.mov') %}
-                <video controls class="flask-video">
+                <!-- <video controls class="flask-video">
                     <source src="{{ url_for('static', filename='images/Video_dataset/' + randomImage) }}" type="video/mp4">
                     Your browser does not support the video tag.
-                </video>
+                </video> -->
+
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/8L3QSt6f3dM?si=o0HcV1AN_GjfMyZ2&amp;controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
             {% else %}
                 <img src="{{ url_for('static', filename='images/Image_dataset/' + randomImage) }}" alt="Random Image" class="flask-image">
             {% endif %}
@@ -403,62 +405,108 @@
         let form = document.forms["info-form"];
         form.addEventListener("submit", getValues);
 
-        function getValues(event){
-            event.preventDefault();
 
-               // Check if visit count value exists in localStorage
-            if (!localStorage.getItem('visitCount')) {
-                // Set the visit count in localStorage with an initial value of 0
-                localStorage.setItem('visitCount', 0);
-            }
 
-            let dateTime = new Date().toLocaleDateString("en-IN", {
-                day:    '2-digit',
-                month:  '2-digit',
-                year:   '2-digit',
-                hour:   '2-digit',
-                minute: '2-digit',
-                second: '2-digit',
-                hour12: false
-            });
-            let userId = dateTime.replace(/\/|,|:| |AM|PM/g,"");
-            document.getElementById('user-id-input').value = userId;
+// new code added for session management 
 
-            document.getElementById('age-hidden-input').value = this.Age.value;
-            document.getElementById('gender-hidden-input').value = this.Gender.value;
-            document.getElementById('occupation-hidden-input').value = this.Occupation.value;
-            document.getElementById('computerOpSkill-hidden-input').value = this.ComputerOpSkill.value;
-            let data = {
-                "occupation": this.Occupation.value, 
-                "age": this.Age.value, 
-                "gender": this.Gender.value,
-                "computerOpSkill": this.ComputerOpSkill.value,
-            }
-            //showalert
-            localStorage.setItem('alertType', 'success');
-            showInitialEmotionCard();
+// Function to store user data in local storage
+function storeUserData(userId, age, gender, occupation, computerOpSkill, initialEmotion) {
+    localStorage.setItem('userId', userId);
+    localStorage.setItem('age', age);
+    localStorage.setItem('gender', gender);
+    localStorage.setItem('occupation', occupation);
+    localStorage.setItem('computerOpSkill', computerOpSkill);
+    localStorage.setItem('initialEmotion', initialEmotion);
+}     
+        
+function getUserData() {
+    return {
+        userId: localStorage.getItem('userId'),
+        age: localStorage.getItem('age'),
+        gender: localStorage.getItem('gender'),
+        occupation: localStorage.getItem('occupation'),
+        computerOpSkill: localStorage.getItem('computerOpSkill'),
+        initialEmotion: localStorage.getItem('initialEmotion')
+    };
+}     
+       
+// Update getValues() function to store user data
+function getValues(event){
+    event.preventDefault();
+
+    // Get user input
+    let age = this.Age.value;
+    let gender = this.Gender.value;
+    let occupation = this.Occupation.value;
+    let computerOpSkill = this.ComputerOpSkill.value;
+
+    // Generate unique userId
+    let dateTime = new Date().toLocaleDateString("en-IN", {
+        day:    '2-digit',
+        month:  '2-digit',
+        year:   '2-digit',
+        hour:   '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false
+    });
+    let userId = dateTime.replace(/\/|,|:| |AM|PM/g,"");
+
+    // Store user data in local storage
+    storeUserData(userId, age, gender, occupation, computerOpSkill, 'k');
+
+    localStorage.setItem('alertType', 'success');
+
+    // Retrieve data from local storage
+    let userData = getUserData(); // Assuming getUserData() retrieves user data from local storage
+
+    // Set elements on the document using the retrieved data
+    document.getElementById('user-id-input').value = userData.userId;
+    document.getElementById('age-hidden-input').value = userData.age;
+    document.getElementById('gender-hidden-input').value = userData.gender;
+    document.getElementById('occupation-hidden-input').value = userData.occupation;
+    document.getElementById('computerOpSkill-hidden-input').value = userData.computerOpSkill;
+    document.getElementById('initial-emotion-input').value = userData.initialEmotion;
+
+    // Proceed to next step
+    showInitialEmotionCard();
+    
+}
+
+// Update getInitialEmotion() function to store initial emotion
+function getInitialEmotion(emotion) {
+    let userData = getUserData();
+    storeUserData(userData.userId, userData.age, userData.gender, userData.occupation, userData.computerOpSkill, emotion);
+
+    // Continue with the survey
+    document.getElementById('intialEmotionCard').style.display = 'none';
+    document.getElementById('imageSection').style.display = 'block';
+
+    // Start the timer for the next button
+    startNextButtonTimer();
+} 
+        
+// Function to start the timer for the Next button
+function startNextButtonTimer() {
+    let button = document.getElementById('next-button');
+    let time = 10;
+    let timer = setInterval(function() {
+        if (time > 0) {
+            time--;
+            button.disabled = true;
+            button.innerHTML = 'Wait [' + time + ']';
         }
-
-        function getInitialEmotion(emotion) {
-            document.getElementById('initial-emotion-input').value = emotion;
-
-            document.getElementById('intialEmotionCard').style.display = 'none';
-            document.getElementById('imageSection').style.display = 'block';
-
-            var button = document.getElementById('next-button');
-            var time = 10;
-            var timer = setInterval(function() {
-                if (time > 0) {
-                    time--;
-                    button.disabled = true;
-                    button.innerHTML = 'Wait [' + time + ']';
-                }
-                if (time === 0) {
-                    button.disabled = false;
-                    button.innerHTML = 'Next';
-                }
-            }, 1000);
+        if (time === 0) {
+            button.disabled = false;
+            button.innerHTML = 'Next';
+            clearInterval(timer); // Stop the timer
         }
+    }, 1000);
+}        
+        
+   
+
+
 
         // Function to simulate mouse movement to the center of the screen
         // function moveCursorToCenter() {
@@ -539,6 +587,18 @@
         function submitResponse(response) {
             getEndTime();
             responseTime = calculateDifference();
+
+            let userData = getUserData(); // Assuming getUserData() retrieves user data from local storage
+            
+            // Set elements on the document using the retrieved data
+            document.getElementById('user-id-input').value = userData.userId;
+            document.getElementById('age-hidden-input').value = userData.age;
+            document.getElementById('gender-hidden-input').value = userData.gender;
+            document.getElementById('occupation-hidden-input').value = userData.occupation;
+            document.getElementById('computerOpSkill-hidden-input').value = userData.computerOpSkill;
+            document.getElementById('initial-emotion-input').value = userData.initialEmotion;
+
+
             document.getElementById('response-time-input').value = responseTime;
             document.getElementById('response-input').value = response;
             document.getElementById('mouse-data-input').value = JSON.stringify(mouseData);

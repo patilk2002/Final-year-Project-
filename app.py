@@ -154,6 +154,13 @@ def index():
     
     emotion=['amusement', 'anger' ,'contentment', 'disgust', 'excitement', 'fear', 'awe', 'sadness']
 
+    Videos={'amusement':'<iframe width="560" height="315" src="https://www.youtube.com/embed/oAJLKDMihnU?si=1LI1icnTSl6m3gZk&amp;controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>', 
+    'anger':'<iframe width="560" height="315" src="https://www.youtube.com/embed/guVlUIt-eP4?si=ThXOTkgF7BjIoLul&amp;controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>' ,
+    'contentment':'<iframe width="560" height="315" src="https://www.youtube.com/embed/RP4abiHdQpc?si=6ZevSq63NlAb_cHD&amp;controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>', 
+    'disgust': '<iframe width="560" height="315" src="https://www.youtube.com/embed/yekWI59YWTg?si=rFBYReNokzbpMk9K&amp;controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>', 
+    'excitement': '<iframe width="560" height="315" src="https://www.youtube.com/embed/8L3QSt6f3dM?si=mrFR2SI6JKjeJuj_&amp;controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>', 
+    'fear':'<iframe width="560" height="315" src="https://www.youtube.com/embed/gbWE47w2oLE?si=QUj_WuoXZ3nDE-N2&amp;controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>', 'awe':'<iframe width="560" height="315" src="https://www.youtube.com/embed/kzZQYnvw-6E?si=bE1QX98n522tmRkR&amp;controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>', 
+    'sadness':'<iframe width="560" height="315" src="https://www.youtube.com/embed/IpNG4ohSUkI?si=Auz1TNKwXXKYEDys&amp;controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>'}
 
     if(len(stimuli_list)==0):
         # Select 6 random images and 4 random videos
@@ -167,6 +174,12 @@ def index():
         random_images.append (get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), emotion[3], 1)[0])
 
 
+
+
+        # random_videos = get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),emotion[4], 1)
+        # random_videos.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),emotion[5], 1)[0])
+        # random_videos.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),emotion[6], 1)[0])
+        # random_videos.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),emotion[7], 1)[0])
 
 
         random_videos = get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),emotion[4], 1)
@@ -245,13 +258,13 @@ def index():
 @app.route('/submit', methods=['POST'])
 def submit():
     global userId, age, gender, occupation, computerOpSkill, initialEmotion
-    if userId=="":
-        userId = request.form['userId']
-        age = request.form['age']
-        gender = request.form['gender']
-        occupation = request.form['occupation']
-        computerOpSkill = request.form['computerOpSkill']
-        initialEmotion = request.form['initialEmotion']
+    # if userId=="":
+    userId = request.form['userId']
+    age = request.form['age']
+    gender = request.form['gender']
+    occupation = request.form['occupation']
+    computerOpSkill = request.form['computerOpSkill']
+    initialEmotion = request.form['initialEmotion']
 
     response = request.form['response']
     responses.append(response)
