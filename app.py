@@ -154,44 +154,102 @@ def index():
     
     emotion=['amusement', 'anger' ,'contentment', 'disgust', 'excitement', 'fear', 'awe', 'sadness']
 
+    Videos={'amusement':'<iframe width="560" height="315" src="https://www.youtube.com/embed/oAJLKDMihnU?si=1LI1icnTSl6m3gZk&amp;controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>', 
+    'anger':'<iframe width="560" height="315" src="https://www.youtube.com/embed/guVlUIt-eP4?si=ThXOTkgF7BjIoLul&amp;controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>' ,
+    'contentment':'<iframe width="560" height="315" src="https://www.youtube.com/embed/RP4abiHdQpc?si=6ZevSq63NlAb_cHD&amp;controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>', 
+    'disgust': '<iframe width="560" height="315" src="https://www.youtube.com/embed/yekWI59YWTg?si=rFBYReNokzbpMk9K&amp;controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>', 
+    'excitement': '<iframe width="560" height="315" src="https://www.youtube.com/embed/8L3QSt6f3dM?si=mrFR2SI6JKjeJuj_&amp;controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>', 
+    'fear':'<iframe width="560" height="315" src="https://www.youtube.com/embed/gbWE47w2oLE?si=QUj_WuoXZ3nDE-N2&amp;controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>', 'awe':'<iframe width="560" height="315" src="https://www.youtube.com/embed/kzZQYnvw-6E?si=bE1QX98n522tmRkR&amp;controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>', 
+    'sadness':'<iframe width="560" height="315" src="https://www.youtube.com/embed/IpNG4ohSUkI?si=Auz1TNKwXXKYEDys&amp;controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>'}
+
+
+    random.shuffle(emotion)
 
     if(len(stimuli_list)==0):
         # Select 6 random images and 4 random videos
+        print(emotion)
+        stimuli_list.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), emotion[0], 1)[0])
+        stimuli_list.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), emotion[1], 1)[0])
+        stimuli_list.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), emotion[2], 1)[0])
+        stimuli_list.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), emotion[3], 1)[0])
 
-        random.shuffle(emotion)
+        stimuli_list.append(Videos[emotion[4]])
+        stimuli_list.append(Videos[emotion[5]])
+        stimuli_list.append(Videos[emotion[6]])
+        stimuli_list.append(Videos[emotion[7]])
 
-        random_images = get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), emotion[0], 1)
-        random_images.append (get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), emotion[1], 1)[0])
-        random_images.append (get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), emotion[2], 1)[0])
-        random_images.append (get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), emotion[3], 1)[0])
 
-        random_videos = get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),emotion[4], 1)
-        random_videos.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),emotion[5], 1)[0])
-        random_videos.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),emotion[6], 1)[0])
-        random_videos.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),emotion[7], 1)[0])
+        # random_images = get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), emotion[0], 1)
+        # random_images.append (get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), emotion[1], 1)[0])
+        # random_images.append (get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), emotion[2], 1)[0])
+        # random_images.append (get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), emotion[3], 1)[0])
 
-        for i in range(4):
-            stimuli_list.append(random_images[i])
-            stimuli_list.append(random_videos[i])
+        # random_videos = get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),emotion[4], 1)
+        # random_videos.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),emotion[5], 1)[0])
+        # random_videos.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),emotion[6], 1)[0])
+        # random_videos.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),emotion[7], 1)[0])
         
-        random.shuffle(stimuli_list)
+        
+        # random_videos = []
+        # random_videos.append(Videos[emotion[4]])
+        # random_videos.append(Videos[emotion[5]])
+        # random_videos.append(Videos[emotion[6]])
+        # random_videos.append(Videos[emotion[7]])
+
+
+
+        # random_videos = get_random_files(os.path.join(app.static_folder, 'images/Video_dataset'), 5)
+
+        # if(user_number%2):
+        #     # pattern 1
+        #     random_images = get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), 'amusement', 1)
+        #     random_images.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), 'anger', 1)[0])
+        #     random_images.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), 'contentment', 1)[0])
+        #     random_images.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), 'disgust', 1)[0])
+
+        #     random_videos = get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),'excitement', 1)
+        #     random_videos.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),'fear', 1)[0])
+        #     random_videos.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),'awe', 1)[0])
+        #     random_videos.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),'sadness', 1)[0])
+        # else:
+        #     # pattern 2
+        #     random_images = get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), 'excitement', 1)
+        #     random_images.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), 'fear', 1)[0])
+        #     random_images.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), 'awe', 1)[0])
+        #     random_images.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), 'sadness', 1)[0])
+
+        #     random_videos = get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),'amusement', 1)
+        #     random_videos.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),'anger', 1)[0])
+        #     random_videos.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),'contentment', 1)[0])
+        #     random_videos.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),'disgust', 1)[0])
+
+        # for i in range(4):
+        #     stimuli_list.append(random_images[i])
+        #     stimuli_list.append(random_videos[i])
+        
+        # random.shuffle(stimuli_list)
 
     print("Stimuli List ----->")
+
     print(stimuli_list)
+    print(emotion)
 
     count = len(responses)-1
     # random_image = final_list[count-1]
-    random_stimulus = stimuli_list[count]
-    print(count)
+    randInt=random.randint(0, 7)
+    random_stimulus = stimuli_list[randInt]
+
+    # print(count)
     # print(random_image)
     
-    
+    EmoLabel=emotion[randInt]
     # count+=1
 
     image_emotion=random_stimulus[:-10]
     image_emotion_type=''
     if image_emotion not in ['amusement', 'awe', 'contentment', 'excitement'] :
         image_emotion_type = '-negative'
+
 
     # question= "Do you think this image representing "+random_image[:-10]+" ?"
     # debugging 
@@ -205,20 +263,20 @@ def index():
     random_row = df.sample(n=1)
     # print(random_row)
     question = random_row['Question'].values[0]
-    return render_template('index.html', question=question, randomImage=random_stimulus, imageEmotionType=image_emotion_type)
+    return render_template('index.html', question=question, randomImage=random_stimulus, imageEmotionType=image_emotion_type, EmoLabel=EmoLabel)
 
 
 
 @app.route('/submit', methods=['POST'])
 def submit():
     global userId, age, gender, occupation, computerOpSkill, initialEmotion
-    if userId=="":
-        userId = request.form['userId']
-        age = request.form['age']
-        gender = request.form['gender']
-        occupation = request.form['occupation']
-        computerOpSkill = request.form['computerOpSkill']
-        initialEmotion = request.form['initialEmotion']
+    # if userId=="":
+    userId = request.form['userId']
+    age = request.form['age']
+    gender = request.form['gender']
+    occupation = request.form['occupation']
+    computerOpSkill = request.form['computerOpSkill']
+    initialEmotion = request.form['initialEmotion']
 
     response = request.form['response']
     responses.append(response)
@@ -322,7 +380,7 @@ def submit1():
    
     # Calculate Euclidean distance between consecutive coordinates and sum to get total distance
     distance = sum(euclidean_distance(mouse_data_list[i], mouse_data_list[i+1]) for i in range(len(mouse_data_list)-1))
-    speed = distance * 1000 / float(responseTime)
+    speed = distance * 1000 / float(int(responseTime))
 
     displacement = euclidean_distance(mouse_data_list[0], mouse_data_list[-1])
     velocity = displacement * 1000 / float(responseTime)
