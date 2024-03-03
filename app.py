@@ -115,7 +115,7 @@ def euclidean_distance(point1, point2):
 @app.route('/')
 def index():
     global user_number, responses, stimuli_list, random_videos, random_images, userId, age, gender, occupation, computerOpSkill, initialEmotion,labels, image_name, responseTimes, currentEmotions
-    if(len(responses)>=8):
+    if(len(responses)>=9):
         user_number+=1
         stimuli_list=[]
         random_images=[]
@@ -160,48 +160,15 @@ def index():
 
         random.shuffle(emotion)
 
-
         random_images = get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), emotion[0], 1)
         random_images.append (get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), emotion[1], 1)[0])
         random_images.append (get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), emotion[2], 1)[0])
         random_images.append (get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), emotion[3], 1)[0])
 
-
-
-
         random_videos = get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),emotion[4], 1)
         random_videos.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),emotion[5], 1)[0])
         random_videos.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),emotion[6], 1)[0])
         random_videos.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),emotion[7], 1)[0])
-
-
-
-
-
-        # random_videos = get_random_files(os.path.join(app.static_folder, 'images/Video_dataset'), 5)
-
-        # if(user_number%2):
-        #     # pattern 1
-        #     random_images = get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), 'amusement', 1)
-        #     random_images.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), 'anger', 1)[0])
-        #     random_images.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), 'contentment', 1)[0])
-        #     random_images.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), 'disgust', 1)[0])
-
-        #     random_videos = get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),'excitement', 1)
-        #     random_videos.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),'fear', 1)[0])
-        #     random_videos.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),'awe', 1)[0])
-        #     random_videos.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),'sadness', 1)[0])
-        # else:
-        #     # pattern 2
-        #     random_images = get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), 'excitement', 1)
-        #     random_images.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), 'fear', 1)[0])
-        #     random_images.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), 'awe', 1)[0])
-        #     random_images.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), 'sadness', 1)[0])
-
-        #     random_videos = get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),'amusement', 1)
-        #     random_videos.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),'anger', 1)[0])
-        #     random_videos.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),'contentment', 1)[0])
-        #     random_videos.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),'disgust', 1)[0])
 
         for i in range(4):
             stimuli_list.append(random_images[i])
@@ -212,7 +179,7 @@ def index():
     print("Stimuli List ----->")
     print(stimuli_list)
 
-    count = len(responses)
+    count = len(responses)-1
     # random_image = final_list[count-1]
     random_stimulus = stimuli_list[count]
     print(count)
@@ -308,6 +275,62 @@ def submit():
         return render_template('index.html', question=question)
     else:
         return redirect(url_for('results'))
+
+@app.route('/submit1', methods=['POST'])
+def submit1():
+    global userId, age, gender, occupation, computerOpSkill, initialEmotion
+    if userId=="":
+        userId = request.form['userId1']
+        age = request.form['age1']
+        gender = request.form['gender1']
+        occupation = request.form['occupation1']
+        computerOpSkill = request.form['computerOpSkill1']
+        initialEmotion = request.form['initialEmotion1']
+
+    response = request.form['response1']
+    print(response)
+    responses.append(response)
+
+    label = ''
+    stimulus = ''
+    labels.append(label)
+
+    # Get mouse tracking data
+    mouse_data = request.form['mouse_data1']
+    mouse_clicks = request.form['mouse_clicks1']
+    mouse_downtimes = request.form['mouse_downtimes1']
+    mouse_downtimes_list = [ int(i) for i in mouse_downtimes[1:-1].split(",") ]
+    no_of_clicks = len(mouse_downtimes_list)
+    click_moments = request.form['click_moments1']
+    click_moments_list = [ int(i) for i in click_moments[1:-1].split(",") ]
+
+    responseTime = request.form['responseTime1']
+    responseTimes.append(responseTime)
+
+    currentEmotion = ''
+    currentEmotions.append(currentEmotion)
+
+    try:
+        mouse_data_list = json.loads(mouse_data)
+    except json.JSONDecodeError:
+        mouse_data_list = []
+    
+    try:
+        mouse_clicks_list = json.loads(mouse_clicks)
+    except json.JSONDecodeError:
+        mouse_clicks_list = [] 
+   
+    # Calculate Euclidean distance between consecutive coordinates and sum to get total distance
+    distance = sum(euclidean_distance(mouse_data_list[i], mouse_data_list[i+1]) for i in range(len(mouse_data_list)-1))
+    speed = distance * 1000 / float(responseTime)
+
+    displacement = euclidean_distance(mouse_data_list[0], mouse_data_list[-1])
+    velocity = displacement * 1000 / float(responseTime)
+
+    # Add mouse tracking data to CSV file with the label
+    write_mouse_tracking_to_csv(userId, initialEmotion, age, gender, occupation, computerOpSkill, label, stimulus, response, responseTime, currentEmotion, mouse_data_list, no_of_clicks, mouse_clicks_list, mouse_downtimes_list, click_moments_list, speed, velocity)
+
+    return redirect(url_for('results'))
 
 @app.route('/results')
 def results():

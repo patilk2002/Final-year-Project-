@@ -182,7 +182,7 @@
             <h3>Page 5</h3>
             <p><b>Post-Stimulus Emotion Check</b></p>
             5.1 Answer the question: "How are you feeling after watching the image?". This question will be displayed after answering the yes/no type question. Here also we will display 8 emotions and you have to select one.<br><br>
-    </div>
+        </div>
 
         <button onclick="showInfoForm()">Start Servey</button>
 
@@ -262,6 +262,68 @@
         </div>
     </div>
 
+    <div id="3questionCard" class="card" style="display: none;">
+        <form method="post" action="{{ url_for('submit1') }}" id="response-form-1">
+            <input type="hidden" name="userId1" id="user-id-input1">
+            <input type="hidden" name="age1" id="age-hidden-input1">
+            <input type="hidden" name="gender1" id="gender-hidden-input1">
+            <input type="hidden" name="occupation1" id="occupation-hidden-input1">
+            <input type="hidden" name="computerOpSkill1" id="computerOpSkill-hidden-input1">
+            <input type="hidden" name="initialEmotion1" id="initial-emotion-input1">
+            <input type="hidden" name="response1" id="response-input1">
+            <input type="hidden" name="mouse_data1" id="mouse-data-input1">
+            <input type="hidden" name="mouse_clicks1" id="mouse-clicks-input1">
+            <input type="hidden" name="mouse_downtimes1" id="mouse-downtimes-input1">
+            <input type="hidden" name="click_moments1" id="click-moments-input1">
+            <input type="hidden" name="responseTime1" id="response-time-input1">
+
+            <div>
+                <h3>If <b>1 + 2 = 3</b> is correct, select "wrong"</h3>
+                <div class="button-container" style="margin-top: 30px; display: flex;">
+                    <input type="radio" id="q1a1" name="q1" value="right">
+                    <label for="q1a1">right</label><br>
+                    <input type="radio" id="q1a2" name="q1" value="wrong">
+                    <label for="q1a2">wrong</label><br>
+                </div>
+                <!-- const selectedAns = document.querySelector('input[name="q1"]:checked').value; -->
+            </div>
+
+            <div>
+                <h3>Select all numbers less than 10</h3>
+                <div class="button-container" style="margin-top: 30px; display: flex;">
+                    <input type="checkbox" id="q2a1" name="q2" value="2">
+                    <label for="q2a1"> 2 </label><br>
+                    <input type="checkbox" id="q2a2" name="q2" value="18">
+                    <label for="q2a2"> 18 </label><br>
+                    <input type="checkbox" id="q2a3" name="q2" value="5">
+                    <label for="q2a3"> 5 </label><br><br>
+                </div>
+                <!-- document.getElementById("check1").checked returns true or false -->
+            </div>
+
+            <div>
+                <h3>Drag the car from START to FINISH</h3>
+                <div id="drag-task"> 
+
+                    <div style="display: flex; flex-direction: column; justify-content: space-between;">
+                        <div id="drag-start">
+                        <img src="https://st.depositphotos.com/1257517/2682/v/450/depositphotos_26829779-stock-illustration-funny-red-convertible-car-cartoon.jpg" draggable="true" ondragstart="drag(event)" id="drag1" width="88" height="31">
+                        </div>
+                        <div id="drag-start-footer">START</div>
+                    </div>
+
+                    <div style="display: flex; flex-direction: column; justify-content: space-between;">
+                        <div id="drag-finish" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                        <div id="drag-finish-footer">FINISH</div>
+                    </div>
+
+                </div>
+            </div>
+
+            <button onclick="submitResponse1()">submit</button>
+        </form>
+    </div>
+
     <div id="imageSection" class="card{{ imageEmotionType }}" style="text-align:center;display: none;">
         {% if randomImage %}
             {% if randomImage.endswith('.mp4') or randomImage.endswith('.avi') or randomImage.endswith('.mov') %}
@@ -278,11 +340,6 @@
             <p>No media found.</p>
         {% endif %}
     </div>
-
-
-
-
-
 
     <div id="questionSection" class="card{{ imageEmotionType }}" style="display: none;">
         <h2>{{ question }}</h2>
@@ -423,11 +480,16 @@
             });
             let userId = dateTime.replace(/\/|,|:| |AM|PM/g,"");
             document.getElementById('user-id-input').value = userId;
+            document.getElementById('user-id-input1').value = userId;
 
             document.getElementById('age-hidden-input').value = this.Age.value;
+            document.getElementById('age-hidden-input1').value = this.Age.value;
             document.getElementById('gender-hidden-input').value = this.Gender.value;
+            document.getElementById('gender-hidden-input1').value = this.Gender.value;
             document.getElementById('occupation-hidden-input').value = this.Occupation.value;
+            document.getElementById('occupation-hidden-input1').value = this.Occupation.value;
             document.getElementById('computerOpSkill-hidden-input').value = this.ComputerOpSkill.value;
+            document.getElementById('computerOpSkill-hidden-input1').value = this.ComputerOpSkill.value;
             let data = {
                 "occupation": this.Occupation.value, 
                 "age": this.Age.value, 
@@ -441,23 +503,32 @@
 
         function getInitialEmotion(emotion) {
             document.getElementById('initial-emotion-input').value = emotion;
+            document.getElementById('initial-emotion-input1').value = emotion;
 
+            getStartTime();
             document.getElementById('intialEmotionCard').style.display = 'none';
-            document.getElementById('imageSection').style.display = 'block';
+            document.getElementById('3questionCard').style.display = 'block';
+           
+            document.addEventListener("mousemove", function (event) {
+                var x = event.clientX;
+                var y = event.clientY;
+                mouseData.push({ x: x, y: y });
+            });
 
-            var button = document.getElementById('next-button');
-            var time = 10;
-            var timer = setInterval(function() {
-                if (time > 0) {
-                    time--;
-                    button.disabled = true;
-                    button.innerHTML = 'Wait [' + time + ']';
-                }
-                if (time === 0) {
-                    button.disabled = false;
-                    button.innerHTML = 'Next';
-                }
-            }, 1000);
+            document.addEventListener("mousedown", function (event) {
+                clickStartTime = Date.now();
+                var x = event.clientX;
+                var y = event.clientY;
+                mouseClicks.push({ x: x, y: y });
+            })
+
+            document.addEventListener('mouseup', () => {
+                const clickUpMoment = Date.now();
+                const downtime = clickUpMoment - clickStartTime;
+                mouseDowntimes.push(downtime);
+                const clickMoment = clickUpMoment - startTime;
+                clickMoments.push(clickMoment);
+            });
         }
 
         // Function to simulate mouse movement to the center of the screen
@@ -534,6 +605,13 @@
                // console.log('Mouse Data:', JSON.stringify(mouseData)); // Log mouse data for debugging
                 //console.log("test");
             });
+
+            document.getElementById('response-form-1').addEventListener('submit', function () {
+                document.getElementById('mouse-data-input1').value = JSON.stringify(mouseData);
+                document.getElementById('mouse-clicks-input1').value = JSON.stringify(mouseClicks);
+                document.getElementById('mouse-downtimes-input1').value = JSON.stringify(mouseDowntimes);
+                document.getElementById('click-moments-input1').value = JSON.stringify(clickMoments);
+            });
         });
         
         function submitResponse(response) {
@@ -552,6 +630,34 @@
         function getCurrentEmotion(emotion) {
             document.getElementById('current-emotion-input').value = emotion;
             document.getElementById('response-form').submit();
+        }
+
+        function submitResponse1() {
+            getEndTime();
+            responseTime = calculateDifference();
+
+            var q1response = document.querySelector('input[name="q1"]:checked').value;
+            let checkboxes = document.getElementsByName('q2');
+            let q2response = "[";
+            for (var i = 0; i < checkboxes.length; i++) {
+                if (checkboxes[i].checked) {
+                    q2response += checkboxes[i].value + ", ";
+                }
+            }
+            q2response += "]";
+
+            var dragTask = document.getElementById('drag-finish').hasChildNodes? "True":"False";
+
+            var response = q1response + "-" + q2response + "-" + dragTask;
+            console.log(response)
+
+            document.getElementById('response-time-input1').value = responseTime;
+            document.getElementById('response-input1').value = response;
+            document.getElementById('mouse-data-input1').value = JSON.stringify(mouseData);
+            document.getElementById('mouse-clicks-input1').value = JSON.stringify(mouseClicks);
+            document.getElementById('mouse-downtimes-input1').value = JSON.stringify(mouseDowntimes);
+            document.getElementById('click-moments-input1').value = JSON.stringify(clickMoments);
+            document.getElementById('response-form-1').submit();
         }
 
         // below functions displays alert
@@ -591,6 +697,22 @@
                 localStorage.removeItem('alertType'); // Remove 'alertType' from local storage
             }, 2000); // 2000 milliseconds (2 seconds)
         }
+
+        // script for drag task
+        function allowDrop(ev) {
+            ev.preventDefault();   
+        }
+
+        function drag(ev) {
+            ev.dataTransfer.setData("text", ev.target.id);
+        }
+
+        function drop(ev) {
+            ev.preventDefault();
+            var data = ev.dataTransfer.getData("text");
+            ev.target.appendChild(document.getElementById(data));
+        }
+        // end of script for drag task
     </script>
 </body>
 </html>

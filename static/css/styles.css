@@ -237,3 +237,35 @@ body {
     transform: scale(1.1); /* Scale up on hover */
 }
 
+#drag-task {
+    display: flex;
+    justify-content: space-between;
+}
+
+#drag-start, #drag-finish {
+    float: left;
+    width: 100px;
+    height: 35px;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid black;
+}
+#drag-start-footer {
+    width: 100px;
+    height: 15px;
+    margin-left: 10px;
+    padding-left: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#drag-finish-footer {
+    width: 100px;
+    height: 15px;
+    margin-right: 10px;
+    padding-right: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
