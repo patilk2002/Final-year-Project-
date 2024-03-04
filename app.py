@@ -272,7 +272,10 @@ def index():
 
     random_row = df.sample(n=1)
     # print(random_row)
-    question = random_row['Question'].values[0]
+    # question = random_row['Question'].values[0]
+
+    question= "Do you think this image representing "+ EmoLabel + " ?"
+
     return render_template('index.html', question=question, randomImage=random_stimulus, imageEmotionType=image_emotion_type, EmoLabel=EmoLabel)
 
 
