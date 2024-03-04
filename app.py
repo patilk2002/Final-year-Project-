@@ -255,9 +255,9 @@ def index():
     print(EmoLabel)
     # count+=1
 
-    image_emotion=random_stimulus[:-10]
+    # image_emotion=random_stimulus[:-10]
     image_emotion_type=''
-    if image_emotion not in ['amusement', 'awe', 'contentment', 'excitement'] :
+    if EmoLabel not in ['amusement', 'awe', 'contentment', 'excitement'] :
         image_emotion_type = '-negative'
 
 
