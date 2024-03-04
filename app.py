@@ -179,13 +179,12 @@ def index():
     print(emotion)
     stimuli_list=[]
     stimuli_list.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), emotion[0], 1)[0])
-    stimuli_list.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), emotion[1], 1)[0])
+    stimuli_list.append(Videos[emotion[1]])
     stimuli_list.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), emotion[2], 1)[0])
-    stimuli_list.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), emotion[3], 1)[0])
-
-    stimuli_list.append(Videos[emotion[4]])
+    stimuli_list.append(Videos[emotion[3]])
+    stimuli_list.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), emotion[4], 1)[0])
     stimuli_list.append(Videos[emotion[5]])
-    stimuli_list.append(Videos[emotion[6]])
+    stimuli_list.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), emotion[6], 1)[0])
     stimuli_list.append(Videos[emotion[7]])
 
 
