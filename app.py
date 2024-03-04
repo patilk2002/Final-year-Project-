@@ -151,6 +151,7 @@ def index():
         files = [f for f in os.listdir(folder) if f.startswith(prefix)]
         return sample(files, min(num_files, len(files)))
 
+
     
     emotion=['amusement', 'anger' ,'contentment', 'disgust', 'excitement', 'fear', 'awe', 'sadness']
 
@@ -162,21 +163,30 @@ def index():
     'fear':'<iframe width="560" height="315" src="https://www.youtube.com/embed/gbWE47w2oLE?si=QUj_WuoXZ3nDE-N2&amp;controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>', 'awe':'<iframe width="560" height="315" src="https://www.youtube.com/embed/kzZQYnvw-6E?si=bE1QX98n522tmRkR&amp;controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>', 
     'sadness':'<iframe width="560" height="315" src="https://www.youtube.com/embed/IpNG4ohSUkI?si=Auz1TNKwXXKYEDys&amp;controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>'}
 
+    count = len(responses)
 
-    random.shuffle(emotion)
 
-    if(len(stimuli_list)==0):
+    if(len(stimuli_list)==0 or count==0):
         # Select 6 random images and 4 random videos
-        print(emotion)
-        stimuli_list.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), emotion[0], 1)[0])
-        stimuli_list.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), emotion[1], 1)[0])
-        stimuli_list.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), emotion[2], 1)[0])
-        stimuli_list.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), emotion[3], 1)[0])
+        random.shuffle(emotion)
 
-        stimuli_list.append(Videos[emotion[4]])
-        stimuli_list.append(Videos[emotion[5]])
-        stimuli_list.append(Videos[emotion[6]])
-        stimuli_list.append(Videos[emotion[7]])
+    print("/n/n/n check emotions :")
+    print(emotion)
+
+    print("/n/n/n")
+
+
+    print(emotion)
+    stimuli_list=[]
+    stimuli_list.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), emotion[0], 1)[0])
+    stimuli_list.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), emotion[1], 1)[0])
+    stimuli_list.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), emotion[2], 1)[0])
+    stimuli_list.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), emotion[3], 1)[0])
+
+    stimuli_list.append(Videos[emotion[4]])
+    stimuli_list.append(Videos[emotion[5]])
+    stimuli_list.append(Videos[emotion[6]])
+    stimuli_list.append(Videos[emotion[7]])
 
 
         # random_images = get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), emotion[0], 1)
@@ -195,9 +205,7 @@ def index():
         # random_videos.append(Videos[emotion[5]])
         # random_videos.append(Videos[emotion[6]])
         # random_videos.append(Videos[emotion[7]])
-
-
-
+                                                                                                                                                        
         # random_videos = get_random_files(os.path.join(app.static_folder, 'images/Video_dataset'), 5)
 
         # if(user_number%2):
@@ -225,7 +233,7 @@ def index():
 
         # for i in range(4):
         #     stimuli_list.append(random_images[i])
-        #     stimuli_list.append(random_videos[i])
+        #9     stimuli_list.append(random_videos[i])
         
         # random.shuffle(stimuli_list)
 
@@ -235,13 +243,16 @@ def index():
     print(emotion)
 
     # random_image = final_list[count-1]
-    randInt=random.randint(0, 7)
-    random_stimulus = stimuli_list[randInt]
+    # randInt=random.randint(0, 7)
+
+    
+    random_stimulus = stimuli_list[count]
 
     # print(count)
     # print(random_image)
     
-    EmoLabel=emotion[randInt]
+    EmoLabel=emotion[count]
+    print(EmoLabel)
     # count+=1
 
     image_emotion=random_stimulus[:-10]
