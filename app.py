@@ -188,67 +188,13 @@ def index():
     stimuli_list.append(Videos[emotion[7]])
 
 
-        # random_images = get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), emotion[0], 1)
-        # random_images.append (get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), emotion[1], 1)[0])
-        # random_images.append (get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), emotion[2], 1)[0])
-        # random_images.append (get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), emotion[3], 1)[0])
-
-        # random_videos = get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),emotion[4], 1)
-        # random_videos.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),emotion[5], 1)[0])
-        # random_videos.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),emotion[6], 1)[0])
-        # random_videos.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),emotion[7], 1)[0])
-        
-        
-        # random_videos = []
-        # random_videos.append(Videos[emotion[4]])
-        # random_videos.append(Videos[emotion[5]])
-        # random_videos.append(Videos[emotion[6]])
-        # random_videos.append(Videos[emotion[7]])
-                                                                                                                                                        
-        # random_videos = get_random_files(os.path.join(app.static_folder, 'images/Video_dataset'), 5)
-
-        # if(user_number%2):
-        #     # pattern 1
-        #     random_images = get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), 'amusement', 1)
-        #     random_images.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), 'anger', 1)[0])
-        #     random_images.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), 'contentment', 1)[0])
-        #     random_images.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), 'disgust', 1)[0])
-
-        #     random_videos = get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),'excitement', 1)
-        #     random_videos.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),'fear', 1)[0])
-        #     random_videos.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),'awe', 1)[0])
-        #     random_videos.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),'sadness', 1)[0])
-        # else:
-        #     # pattern 2
-        #     random_images = get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), 'excitement', 1)
-        #     random_images.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), 'fear', 1)[0])
-        #     random_images.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), 'awe', 1)[0])
-        #     random_images.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Image_dataset'), 'sadness', 1)[0])
-
-        #     random_videos = get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),'amusement', 1)
-        #     random_videos.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),'anger', 1)[0])
-        #     random_videos.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),'contentment', 1)[0])
-        #     random_videos.append(get_random_files_with_prefix(os.path.join(app.static_folder, 'images/Video_dataset'),'disgust', 1)[0])
-
-        # for i in range(4):
-        #     stimuli_list.append(random_images[i])
-        #9     stimuli_list.append(random_videos[i])
-        
-        # random.shuffle(stimuli_list)
-
     print("Stimuli List ----->")
 
     print(stimuli_list)
     print(emotion)
 
-    # random_image = final_list[count-1]
-    # randInt=random.randint(0, 7)
 
-    
     random_stimulus = stimuli_list[count]
-
-    # print(count)
-    # print(random_image)
     
     EmoLabel=emotion[count]
     print(EmoLabel)
@@ -263,6 +209,7 @@ def index():
     # question= "Do you think this image representing "+random_image[:-10]+" ?"
     # debugging 
     # Specify the file path
+
     csv_file_path = 'static/questions/survey_questions_fyp.csv'
 
     # Read the CSV file into a DataFrame
