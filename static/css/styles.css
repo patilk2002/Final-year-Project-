@@ -21,8 +21,44 @@ body {
     
 }
 
+.img-card {
+    margin-top: 170px; /* Adjusted margin-top to accommodate the fixed header */
+    width: 60%;
+    margin: 0 auto;
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 1s ease-in-out;
+    
+}
+
+.que-card {
+    /*margin-top: 40px; /* Adjusted margin-top to accommodate the fixed header */
+    width: 60%;
+    margin: 0 auto;
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 1s ease-in-out;
+    
+    grid-row: 2/3;
+    grid-column: 2/3;
+}
+
+.card-holder{
+    margin-top: 170px; /* Adjusted margin-top to accommodate the fixed header */
+    width: 100%;
+    height: 100%;
+    grid-template-rows: 1fr 3fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
 .card1 {
-    margin-top: 40px; /* Adjusted margin-top to accommodate the fixed header */
+    margin-top: 170px; /* Adjusted margin-top to accommodate the fixed header */
     width: 60%;
     margin: 0 auto;
     padding: 20px;
@@ -36,7 +72,7 @@ body {
     text-align: justify;
 }
 
-.card-negative {
+.img-card-negative {
     margin-top: 40px; /* Adjusted margin-top to accommodate the fixed header */
     width: 60%;
     margin: 0 auto;
@@ -47,6 +83,22 @@ body {
     color: #fff; /* Light text color */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Darker shadow */
     animation: fadeIn 1s ease-in-out;
+}
+
+.que-card-negative {
+    /*margin-top: 40px; /* Adjusted margin-top to accommodate the fixed header */
+    width: 60%;
+    margin: 0 auto;
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 8px;
+    background-color: rgb(77, 77, 77); /* Dark background color */
+    color: #fff; /* Light text color */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Darker shadow */
+    animation: fadeIn 1s ease-in-out;
+    
+    grid-row: 1/3;
+    grid-column: 2/3;
 }
 
 /* Optionally, you can add animation keyframes to make the appearance more dramatic */
