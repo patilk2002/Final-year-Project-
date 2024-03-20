@@ -301,3 +301,4 @@ def results():
 
 if __name__ == '__main__':
     app.run(debug=True,host="172.18.37.230")
+    # app.run(debug=True)
