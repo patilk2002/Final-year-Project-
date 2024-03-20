@@ -142,9 +142,9 @@
 </head>
 
 <body>
-    <div class="header">
+    <!-- <div class="header">
         <h2>SURVEY FORM </h2>
-    </div>
+    </div> -->
 
      <!-- Alert container -->
      <div id="alertContainer" class="alert"></div>
@@ -288,8 +288,7 @@
             <br>
             <br>
             <br>
-            <br>
-            <br>
+
             <button disabled id="next-button" class="button{{imageEmotionType}}" onclick="showQuestion()" style="width: 150px;">Wait [10]</button> <!-- Button to show the question form -->
         {% else %}
             <p>No media found.</p>
@@ -310,7 +309,7 @@
                 <p>No images found.</p>
             {% endif %} -->
 
-            <div class="button-container" style="margin-top: 30px;">
+            <div class="button-container" style="margin-top: 50px;">
 
                 <form method="post" action="{{ url_for('submit') }}" id="response-form">
                     <input type="hidden" name="userId" id="user-id-input">
