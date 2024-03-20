@@ -76,18 +76,18 @@ def write_mouse_tracking_to_csv(userId, initialEmotion, age, gender, occupation,
 
     graph_name = label+"_"+timestamp+"_graph.png"
 
-    with open('mouse_tracking_2.csv', mode='a', newline='') as file:
+    with open('mouse_tracking_soham.csv', mode='a', newline='') as file:
         writer = csv.writer(file)
         writer.writerow([userId, initialEmotion, age, gender, occupation, computerOpSkill, label, response, responseTime, currentEmotion] + cor_x + cor_y)
 
-    with open('mouse_tracking_new_2.csv', mode='a', newline='') as file:
+    with open('mouse_tracking_new_soham.csv', mode='a', newline='') as file:
         writer = csv.writer(file)
         # Add the label as the first element in the row
         writer.writerow([userId, initialEmotion, age, gender, occupation, computerOpSkill, label, response, responseTime, currentEmotion,mouse_data_list, no_of_clicks, mouse_clicks_list, mouse_downtimes_list])
 
 
     # File path of the CSV file
-    csv_file_path = 'mouse_tracking_final_2.csv'
+    csv_file_path = 'mouse_tracking_final_soham.csv'
 
     # Field names (header)
     header = ['User_ID', 'Initial_Emotion', 'Age', 'Gender', 'Occupation', 'Computer_Operating_Skill', 'Label', 'Stimulus', 'Response', 'Response_Time', 'Current_Emotion', 'Mouse_Data', 'Mouse_Clicks', 'Mouse_Clicks_List', 'Mouse_Downtime_List', 'Click_Moments_List', 'Speed', 'Velocity', 'Graph_file']
