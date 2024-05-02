@@ -1,0 +1,2 @@
+Response_Time,Speed,Velocity,Initial_Emotion,maximum_positive_deviation,maximum_negative_deviation,DTW,Direction_Change_Freq_10,Direction_Change_Freq_30,Direction_Change_Freq_45,Direction_Change_Freq_90,centroid_mp_dist,Img_Radius,Slope,Narrowness
+1086.0,407.9625815443665,404.31857090423847,0.0,5.010362705417046,-15.076636868118566,4.3377192982456,0.30434782608695654,0.043478260869565216,0.0,0.0,-58.86994257589257,278.3624797613516,1.7409013074706696,0.0010061679496645764
