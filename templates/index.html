@@ -153,7 +153,7 @@
         <h1 style="text-align: center; color: #333;">Survey Form Instructions</h1>
 
         <p>
-            Welcome to our Data Collection Survey, designed to gather essential information for building a predictive model for human emotions based on mouse tracking data, response time, and other factors. Throughout the survey, you'll answer 10 yes-no type questions. Your honest responses and mouse movements will be recorded for our research analysis. Thank you for joining us on this fascinating journey!
+            Welcome to our Data Collection Survey, designed to gather essential information for building a predictive model for human emotions based on mouse tracking data, response time, and other factors. Throughout the survey, you'll watch images and videos designed to induce emotions, followed by answering questions. Your honest responses and mouse movements will be recorded for our research analysis. Thank you for joining us on this fascinating journey!
         </p>
 
         <div class="page-column">
@@ -168,35 +168,23 @@
         </div>
         <div class="page-column">
             <h3>Page 3</h3>
-            <p><b>Important requirements to fill survey </b></p>
-            <img src="../static/images/use_mouse.jpeg" alt="use mouse only">
-            <br>
-            3.1 You will <b>use only</b> mouse to fill the survey entirely<br>
-            
-            <br>
-            
-            <img src="../static/images/no_phone.jpeg" alt="use mouse only">
-            <br><br>
-            3.2 Please <b>DO NOT</b> mobile to fill survey
-            <br><br>
-            
-            <img src="../static/images/no_touchpad.jpeg" alt="use mouse only">
-            <br><br>
-            3.3 Please <b>DO NOT</b> use laptops touchpad to fill survey
+            <p><b>Stimulus Presentation</b></p>
+            3.1 You will now be presented with an image or video to stimulate emotion.<br>
+            3.2 Carefully watch the image or video. The "Next" button will be activated after 10 seconds.
         </div>
         <div class="page-column">
             <h3>Page 4</h3>
             <p><b>Survey Questions</b></p>
-             Answer the yes/no question based on question asked.
-             <br><br>
+            4.1 Answer the yes/no question based on the emotion induced by the image or video.
+
         </div>
-        <!-- <div class="page-column">
+        <div class="page-column">
             <h3>Page 5</h3>
             <p><b>Post-Stimulus Emotion Check</b></p>
             5.1 Answer the question: "How are you feeling after watching the image?". This question will be displayed after answering the yes/no type question. Here also we will display 8 emotions and you have to select one.<br><br>
-    </div> -->
+    </div>
 
-        <button onclick="showInfoForm()">Start Survey</button>
+        <button onclick="showInfoForm()">Start Servey</button>
 
 
     </div>
@@ -274,31 +262,21 @@
         </div>
     </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <!-- <div id="imageSection" class="img-card{{ imageEmotionType }}" style="text-align:center;display: none;">
+    <div id="imageSection" class="img-card{{ imageEmotionType }}" style="text-align:center;display: none;">
         {% if randomImage %}
             {% if randomImage.endswith('.jpg') or randomImage.endswith('.png') or randomImage.endswith('.jpeg') %}
             <img src="{{ url_for('static', filename='images/Image_dataset/' + randomImage) }}" alt="Random Image" class="flask-image">
 
-            {% else %}
+                <!-- <video controls class="flask-video">
+                    <source src="{{ url_for('static', filename='images/Video_dataset/' + randomImage) }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video> -->
 
+            {% else %}
+                <!-- <img src="{{ url_for('static', filename='images/Image_dataset/' + randomImage) }}" alt="Random Image" class="flask-image"> -->
+
+                <!--    <iframe width="560" height="315" src="https://www.youtube.com/embed/8L3QSt6f3dM?si=o0HcV1AN_GjfMyZ2&amp;controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> -->
+                
                 {{ randomImage | safe }}
                 
             {% endif %}
@@ -311,12 +289,12 @@
             <br>
             <br>
 
-            <button disabled id="next-button" class="button{{imageEmotionType}}" onclick="showQuestion()" style="width: 150px;">Wait [10]</button> 
+            <button disabled id="next-button" class="button{{imageEmotionType}}" onclick="showQuestion()" style="width: 150px;">Wait [10]</button> <!-- Button to show the question form -->
         {% else %}
             <p>No media found.</p>
         {% endif %}
     </div>
- -->
+
 
 
 
@@ -519,12 +497,10 @@ function getInitialEmotion(emotion) {
 
     // Continue with the survey
     document.getElementById('intialEmotionCard').style.display = 'none';
-    document.getElementById('questionSection').style.display = 'block';
+    document.getElementById('imageSection').style.display = 'block';
 
-    // document.getElementById('imageSection').style.display = 'block';
-    showQuestion();
     // Start the timer for the next button
-    // startNextButtonTimer(); 
+    startNextButtonTimer();
 } 
         
 // Function to start the timer for the Next button

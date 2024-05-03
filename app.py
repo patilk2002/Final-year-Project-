@@ -299,6 +299,4 @@ def results():
     zipped_data = zip(responses, labels, responseTimes, currentEmotions)
     return render_template('results.html', responses=responses, zipped_data=zipped_data)
 
-if __name__ == '__main__':
-    app.run(debug=True)
-    # app.run(debug=True)
+
