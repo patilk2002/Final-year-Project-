@@ -24,13 +24,29 @@
         {% endfor %}
     </ul> -->
 
-    <ul>
+    <!-- <ul>
         {% for response, label, responseTime, currentEmotion in zipped_data %}
             <li>{{ response }} - {{ label }} - {{ responseTime }} - {{currentEmotion}}</li>
         {% endfor %}
-    </ul>
+    </ul> -->
     
-    <p><a href="{{ url_for('index') }}" onclick="incrementAndCheckVisitCount()">Back to Survey</a></p>
+    <p id="visitCount"></p>
+
+    <script>
+        // Retrieve visit count from localStorage
+        var visitCount = 7 - localStorage.getItem('visitCount');
+
+        // Check if visit count is null or undefined, set it to 0 if so
+        if (!visitCount) {
+            visitCount = 0;
+        }
+
+        // Update the visit count on the webpage
+        document.getElementById('visitCount').innerText = 'Questions remaining : ' + visitCount;
+    </script>
+
+
+    <p><a href="{{ url_for('index') }}" onclick="incrementAndCheckVisitCount()">Continue Survey ....</a></p>
 </div>
 
 <script>
